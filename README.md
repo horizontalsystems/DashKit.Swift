@@ -92,32 +92,6 @@ bitcoinKit.receiveAddress
 
 *Kits* have `transactions(fromHash: nil, limit: nil)` methods which return `Single<DashTransactionInfo>`(for DashKit) [RX Single Observers](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/Traits.md#single).
 
-`TransactionInfo`:
-```swift
-//   ▿ TransactionInfo
-//     - transactionHash : "0f83c9b330f936dc4a2458b7d3bb06dce6647a521bf6d98f9c9d3cdd5f6d2a73"
-//     - transactionIndex : 500000
-//     ▿ from : 2 elements
-//       ▿ 0 : TransactionAddressInfo
-//         - address : "mft8jpnf3XwwqhaYSYMSXePFN85mGU4oBd"
-//         - mine : true
-//       ▿ 1 : TransactionAddressInfo
-//         - address : "mnNS5LEQDnYC2xqT12MnQmcuSvhfpem8gt"
-//         - mine : true
-//     ▿ to : 2 elements
-//       ▿ 0 : TransactionAddressInfo
-//         - address : "n43efNftHQ1cXYMZK4Dc53wgR6XgzZHGjs"
-//         - mine : false
-//       ▿ 1 : TransactionAddressInfo
-//         - address : "mrjQyzbX9SiJxRC2mQhT4LvxFEmt9KEeRY"
-//         - mine : true
-//     - amount : -800378
-//     ▿ blockHeight : Optional<Int>
-//       - some : 1446602
-//    ▿ timestamp : Optional<Int>
-//       - some : 1543995972
-```
-
 `DashTransactionInfo`:
 ```swift
 //   ▿ DashTransactionInfo
@@ -143,46 +117,6 @@ bitcoinKit.receiveAddress
 //       - some : 1446602
 //    ▿ timestamp : Optional<Int>
 //       - some : 1543995972
-```
-
-### Creating new transaction
-
-In order to create new transaction, call `send(to: String, value: Int, feeRate: Int)` method on *Kits*
-
-```swift
-try bitcoinKit.send(to: "mrjQyzbX9SiJxRC2mQhT4LvxFEmt9KEeRY", value: 1000000, feeRate: 10000)
-```
-
-This first validates a given address and amount, creates new transaction, then sends it over the peers network. If there's any error with given address/amount or network, it raises an exception.
-
-#### Validating transaction before send
-
-One can validate address and fee by using following methods:
-
-```swift
-try bitcoinKit.validate(address: "mrjQyzbX9SiJxRC2mQhT4LvxFEmt9KEeRY")
-try bitcoinKit.fee(for: 1000000, toAddress: "mrjQyzbX9SiJxRC2mQhT4LvxFEmt9KEeRY", senderPay: true, feeRate: 10000)
-```
-`senderPay` parameter defines who pays the fee
-
-### Parsing BIP21 URI
-
-You can use `parse` method to parse a BIP21 URI:
-
-```swift
-bitcoinKit.parse(paymentAddress: "bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&label=Luke-Jr&message=Donation%20for%20project%20xyz")
-
-// ▿ BitcoinPaymentData
-//   - address : "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"
-//   - version : nil
-//   ▿ amount : Optional<Double>
-//     - some : 50.0
-//   ▿ label : Optional<String>
-//     - some : "Luke-Jr"
-//   ▿ message : Optional<String>
-//     - some : "Donation for project xyz"
-//   - parameters : nil
-
 ```
 
 ## Prerequisites
