@@ -1,7 +1,6 @@
-# BitcoinKit-iOS
+# DashKit-iOS
 
-Bitcoin, BitcoinCash(ABC) and Dash wallet toolkit for Swift. This is a full implementation of SPV node including wallet creation/restore, synchronization with network, send/receive transactions, and more. The repository includes the main `BitcoinCore.swift` and `BitcoinKit.swift`, `BitcoinCashKit.swift` and `DashKit.swift` separate pods.
-
+Dash wallet toolkit for Swift. This is a full implementation of SPV node including wallet creation/restore, synchronization with network, send/receive transactions, and more.
 
 ## Features
 
@@ -12,21 +11,9 @@ Bitcoin, BitcoinCash(ABC) and Dash wallet toolkit for Swift. This is a full impl
 - [BIP44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) multi-account hierarchy for deterministic wallets.
 - [BIP21](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki) URI schemes, which include payment address, amount, label and other params
 
-### BitcoinKit.swift
-- Send/Receive Segwit transactions (*P2WPKH*)
-- Send/Receive Segwit transactions compatible with legacy wallets (*P2WPKH-SH*)
-- base58, bech32
-
-### BitcoinCashKit.swift
-- bech32 cashaddr addresses
-
 ### DashKit.swift
 - Instant send
 - LLMQ lock, Masternodes validation
-
-## Usage
-
-On this page, we'll use *Kits* to refer to one of `BitcoinKit.swift`, `BitcoinCashKit.swift` and `DashKit.swift` kits.
 
 ### Initialization
 
@@ -36,25 +23,11 @@ On this page, we'll use *Kits* to refer to one of `BitcoinKit.swift`, `BitcoinCa
 let words = ["word1", ... , "word12"]
 ```
 
-#### Bitcoin
-
-```swift
-let bitcoinKit = BitcoinKit(withWords: words, walletId: "bitcoin-wallet-id", syncMode: .api, networkType: .mainNet)
-```
-
-#### Bitcoin Cash
-
-```swift
-let bitcoinCashKit = BitcoinCashKit(withWords: words, walletId: "bitcoin-cash-wallet-id", syncMode: .api, networkType: .mainNet)
-```
-
 #### Dash
 
 ```swift
 let dashKit = DashKit(withWords: words, walletId: "dash-wallet-id", syncMode: .api, networkType: .mainNet)
 ```
-
-All 3 *Kits* can be configured to work in `.mainNet` or `.testNet`. 
 
 ##### `syncMode` parameter
 *Kits* can restore existing wallet or create a new one. When restoring, it generates addresses for given wallet according to bip44 protocol, then it pulls all historical transactions for each of those addresses. This is done only once on initial sync. `syncMode` parameter defines where it pulls historical transactions from. When they are pulled, it continues to sync according to [SPV](https://en.bitcoinwiki.org/wiki/Simplified_Payment_Verification) protocol no matter which syncMode was used for initial sync. There are 3 modes available:
@@ -72,8 +45,8 @@ All 3 *Kits* can be configured to work in `.mainNet` or `.testNet`.
 *Kits* require to be started with `start` command. It will be in synced state as long as it is possible. You can call `stop` to stop it
 
 ```swift
-bitcoinKit.start()
-bitcoinKit.stop()
+kit.start()
+kit.stop()
 ```
 
 ### Getting wallet data
@@ -85,7 +58,7 @@ bitcoinKit.stop()
 Balance is provided in `Satoshi`:
 
 ```swift
-bitcoinKit.balance
+kit.balance
 
 // 2937096768
 ```
@@ -117,7 +90,7 @@ bitcoinKit.receiveAddress
 
 #### Transactions
 
-*Kits* have `transactions(fromHash: nil, limit: nil)` methods which return `Single<TransactionInfo>`(for BitcoinKit and BitcoinCashKit) and `Single<DashTransactionInfo>`(for DashKit) [RX Single Observers](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/Traits.md#single).
+*Kits* have `transactions(fromHash: nil, limit: nil)` methods which return `Single<DashTransactionInfo>`(for DashKit) [RX Single Observers](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/Traits.md#single).
 
 `TransactionInfo`:
 ```swift
@@ -212,87 +185,27 @@ bitcoinKit.parse(paymentAddress: "bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amo
 
 ```
 
-### Subscribing to BitcoinKit data
-
-*Kits* provide with data like transactions, blocks, balance, kits state in real-time. `BitcoinCoreDelegate` protocol must be implemented and set to *Kits* instance to receive that data.
-
-```swift
-class Manager {
-
-	init(words: [String]) {
-		bitcoinKit = BitcoinKit(withWords: words, walletId: "bitcoin-wallet-id")
-        bitcoinKit.delegate = self
-    }
-
-}
-
-extension Manager: BitcoinCoreDelegate {
-
-    func transactionsUpdated(inserted: [TransactionInfo], updated: [TransactionInfo]) {
-    }
-
-    func transactionsDeleted(hashes: [String]) {
-    }
-
-    func balanceUpdated(balance: Int) {
-    }
-
-    func lastBlockInfoUpdated(lastBlockInfo: BlockInfo) {
-    }
-
-    public func kitStateUpdated(state: BitcoinCore.KitState) {
-		// BitcoinCore.KitState can be one of 3 following states:
-		// .synced
-		// .syncing(progress: Double)
-		// .notSynced
-		// 
-		// These states can be used to implement progress bar, etc
-    }
-    
-}
-```
-Listener events are run in a dedicated background thread. It can be switched to main thread by setting the  ```delegateQueue``` property to ```DispatchQueue.main```
-
-```swift
-bitcoinKit.delegateQueue = DispatchQueue.main
-```
-
 ## Prerequisites
 
 * Xcode 10.0+
 * Swift 5+
-* iOS 11+
+* iOS 13+
 
 ## Installation
 
-### CocoaPods
+### Swift Package Manager
 
-[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+The [Swift Package Manager](https://swift.org/package-manager/) is a tool for automating the distribution of Swift code
+and is integrated into the `swift` compiler. It is in early development, but DashCryptoKit does support its use on
+supported platforms.
 
-```bash
-$ gem install cocoapods
-```
+Once you have your Swift package set up, adding DashCryptoKit as a dependency is as easy as adding it to
+the `dependencies` value of your `Package.swift`.
 
-> CocoaPods 1.5.0+ is required to build BitcoinKit.
-
-To integrate BitcoinKit into your Xcode project using CocoaPods, specify it in your `Podfile`:
-
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '10.0'
-use_frameworks!
-
-target '<Your Target Name>' do
-  pod 'BitcoinCore.swift'
-  pod 'BitcoinKit.swift'
-  pod 'BitcoinCashKit.swift'
-  pod 'DashKit.swift'
-end
-```
-
-Then, run the following command:
-```bash
-$ pod install
+```swift
+dependencies: [
+    .package(url: "https://github.com/horizontalsystems/DashKit.Swift.git", .upToNextMajor(from: "1.0.0"))
+]
 ```
 
 
@@ -302,18 +215,6 @@ All features of the library are used in example project. It can be referred as a
 
 * [Example Project](https://github.com/horizontalsystems/bitcoin-kit-ios/tree/master/Example)
 
-## Dependencies
-
-* [HSHDWalletKit](https://github.com/horizontalsystems/hd-wallet-kit-ios) - HD Wallet related features, mnemonic phrase generation.
-* [OpenSslKit.swift](https://github.com/horizontalsystems/open-ssl-kit-ios) - Crypto functions required for working with blockchain.
-* [Secp256k1Kit.swift](https://github.com/horizontalsystems/secp256k1-kit-ios) - Crypto functions required for working with blockchain.
-
-### Dash dependencies
-
-* [BlsKit.swift](https://github.com/horizontalsystems/bls-kit-ios)
-* [X11Kit.swift](https://github.com/horizontalsystems/x11-kit-ios)
-
 ## License
 
-The `BitcoinKit-iOS` toolkit is open source and available under the terms of the [MIT License](https://github.com/horizontalsystems/bitcoin-kit-ios/blob/master/LICENSE).
-
+The `DashKit.Swift` toolkit is open source and available under the terms of the [MIT License](https://github.com/horizontalsystems/DashKit.Swift/blob/master/LICENSE).
