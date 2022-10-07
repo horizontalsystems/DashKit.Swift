@@ -27,5 +27,8 @@ Pods/
 .idea
 GeneratedMocks.swift
 
+# SPM
+
+Package.resolved
 .swiftpm
-Package.swift
+.build/
