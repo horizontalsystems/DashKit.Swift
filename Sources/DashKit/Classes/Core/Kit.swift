@@ -21,7 +21,18 @@ public class Kit: AbstractKit {
     private var instantSend: InstantSend?
     private let dashTransactionInfoConverter: ITransactionInfoConverter
 
-    public init(seed: Data, walletId: String, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
+    public convenience init(seed: Data, walletId: String, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
+        let masterPrivateKey = HDPrivateKey(seed: seed, xPrivKey: Purpose.bip44.rawValue)
+
+        try self.init(extendedKey: .private(key: masterPrivateKey),
+                walletId: walletId,
+                syncMode: syncMode,
+                networkType: networkType,
+                confirmationsThreshold: confirmationsThreshold,
+                logger: logger)
+    }
+
+    public init(extendedKey: HDExtendedKey, walletId: String, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let network: INetwork
         var initialSyncApiUrl: String
 
@@ -75,7 +86,7 @@ public class Kit: AbstractKit {
 
         let bitcoinCore = try BitcoinCoreBuilder(logger: logger)
                 .set(network: network)
-                .set(seed: seed)
+                .set(extendedKey: extendedKey)
                 .set(initialSyncApi: initialSyncApi)
                 .set(paymentAddressParser: paymentAddressParser)
                 .set(walletId: walletId)
