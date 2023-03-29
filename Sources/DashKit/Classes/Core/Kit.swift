@@ -97,6 +97,7 @@ public class Kit: AbstractKit {
                 .set(blockHeaderHasher: x11Hasher)
                 .set(transactionInfoConverter: dashTransactionInfoConverter)
                 .set(blockValidator: blockValidatorSet)
+                .set(purpose: .bip44)
                 .build()
         super.init(bitcoinCore: bitcoinCore, network: network)
         bitcoinCore.delegate = self
