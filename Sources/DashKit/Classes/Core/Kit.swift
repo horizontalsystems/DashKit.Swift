@@ -2,7 +2,6 @@ import Foundation
 import BitcoinCore
 import HdWalletKit
 import BigInt
-import RxSwift
 import HsToolKit
 
 public class Kit: AbstractKit {
@@ -132,8 +131,8 @@ public class Kit: AbstractKit {
 
         bitcoinCore.add(peerTaskHandler: masternodeSyncer)
 
-        masternodeSyncer.subscribeTo(observable: bitcoinCore.initialBlockDownload.observable)
-        masternodeSyncer.subscribeTo(observable: bitcoinCore.peerGroup.observable)
+        masternodeSyncer.subscribeTo(publisher: bitcoinCore.initialBlockDownload.publisher)
+        masternodeSyncer.subscribeTo(publisher: bitcoinCore.peerGroup.publisher)
 
         self.masternodeSyncer = masternodeSyncer
 
@@ -174,8 +173,8 @@ public class Kit: AbstractKit {
         try super.send(to: address, value: value, feeRate: feeRate, sortType: sortType)
     }
 
-    public func transactions(fromUid: String? = nil, type: TransactionFilterType?, limit: Int? = nil) -> Single<[DashTransactionInfo]> {
-        super.transactions(fromUid: fromUid, type: type, limit: limit).map { self.cast(transactionInfos: $0) }
+    public func transactions(fromUid: String? = nil, type: TransactionFilterType?, limit: Int? = nil) -> [DashTransactionInfo] {
+        cast(transactionInfos: super.transactions(fromUid: fromUid, type: type, limit: limit))
     }
 
     override public func transaction(hash: String) -> DashTransactionInfo? {

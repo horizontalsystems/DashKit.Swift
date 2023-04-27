@@ -1,9 +1,9 @@
 import Foundation
+import Combine
 import BitcoinCore
-import RxSwift
 
 class MasternodeListSyncer: IMasternodeListSyncer {
-    private let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
     private weak var bitcoinCore: BitcoinCore?
     private let initialBlockDownload: IInitialBlockDownload
     private let peerTaskFactory: IPeerTaskFactory
@@ -41,28 +41,26 @@ class MasternodeListSyncer: IMasternodeListSyncer {
         }
     }
 
-    func subscribeTo(observable: Observable<PeerGroupEvent>) {
-        observable.subscribe(
-                        onNext: { [weak self] in
-                            switch $0 {
-                            case .onPeerDisconnect(let peer, let error): self?.onPeerDisconnect(peer: peer, error: error)
-                            default: ()
-                            }
-                        }
-                )
-                .disposed(by: disposeBag)
+    func subscribeTo(publisher: AnyPublisher<PeerGroupEvent, Never>) {
+        publisher
+                .sink { [weak self] event in
+                    switch event {
+                    case .onPeerDisconnect(let peer, let error): self?.onPeerDisconnect(peer: peer, error: error)
+                    default: ()
+                    }
+                }
+                .store(in: &cancellables)
     }
 
-    func subscribeTo(observable: Observable<InitialBlockDownloadEvent>) {
-        observable.subscribe(
-                        onNext: { [weak self] in
-                            switch $0 {
-                            case .onPeerSynced(let peer): self?.onPeerSynced(peer: peer)
-                            default: ()
-                            }
-                        }
-                )
-                .disposed(by: disposeBag)
+    func subscribeTo(publisher: AnyPublisher<InitialBlockDownloadEvent, Never>) {
+        publisher
+                .sink { [weak self] event in
+                    switch event {
+                    case .onPeerSynced(let peer): self?.onPeerSynced(peer: peer)
+                    default: ()
+                    }
+                }
+                .store(in: &cancellables)
     }
 }
 
