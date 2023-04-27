@@ -1,9 +1,8 @@
 import Foundation
+import Combine
 import DashKit
 import BitcoinCore
 import HsToolKit
-import DashKit
-import RxSwift
 import HdWalletKit
 
 class DashAdapter: BaseAdapter {
@@ -19,12 +18,10 @@ class DashAdapter: BaseAdapter {
         dashKit.delegate = self
     }
 
-    override func transactionsSingle(fromUid: String?, type: TransactionFilterType?, limit: Int) -> Single<[TransactionRecord]> {
+    override func transactions(fromUid: String?, type: TransactionFilterType? = nil, limit: Int) -> [TransactionRecord] {
         dashKit.transactions(fromUid: fromUid, type: type, limit: limit)
-                .map { [weak self] transactions -> [TransactionRecord] in
-                    transactions.compactMap {
-                        self?.transactionRecord(fromTransaction: $0)
-                    }
+                .compactMap {
+                    transactionRecord(fromTransaction: $0)
                 }
     }
 
@@ -45,23 +42,23 @@ class DashAdapter: BaseAdapter {
 extension DashAdapter: DashKitDelegate {
 
     public func transactionsUpdated(inserted: [DashTransactionInfo], updated: [DashTransactionInfo]) {
-        transactionsSignal.notify()
+        transactionsSubject.send()
     }
 
     func transactionsDeleted(hashes: [String]) {
-        transactionsSignal.notify()
+        transactionsSubject.send()
     }
 
     func balanceUpdated(balance: BalanceInfo) {
-        balanceSignal.notify()
+        balanceSubject.send()
     }
 
     func lastBlockInfoUpdated(lastBlockInfo: BlockInfo) {
-        lastBlockSignal.notify()
+        lastBlockSubject.send()
     }
 
     public func kitStateUpdated(state: BitcoinCore.KitState) {
-        syncStateSignal.notify()
+        syncStateSubject.send()
     }
 
 }
