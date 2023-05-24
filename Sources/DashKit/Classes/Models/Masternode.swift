@@ -34,7 +34,7 @@ class Masternode: Record {
         case platformNodeID
     }
 
-    required init(row: Row) {
+    required init(row: Row) throws {
         nVersion = row[Columns.nVersion]
         proRegTxHash = row[Columns.proRegTxHash]
         confirmedHash = row[Columns.confirmedHash]
@@ -48,10 +48,10 @@ class Masternode: Record {
         platformHTTPPort = row[Columns.platformHTTPPort]
         platformNodeID = row[Columns.platformNodeID]
 
-        super.init(row: row)
+        try super.init(row: row)
     }
 
-    override func encode(to container: inout PersistenceContainer) {
+    override func encode(to container: inout PersistenceContainer) throws {
         container[Columns.nVersion] = nVersion
         container[Columns.proRegTxHash] = proRegTxHash
         container[Columns.confirmedHash] = confirmedHash
