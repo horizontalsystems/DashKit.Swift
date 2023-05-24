@@ -26,7 +26,7 @@ class Masternode: Record {
         case isValid
     }
 
-    required init(row: Row) {
+    required init(row: Row) throws {
         proRegTxHash = row[Columns.proRegTxHash]
         confirmedHash = row[Columns.confirmedHash]
         confirmedHashWithProRegTxHash = row[Columns.confirmedHashWithProRegTxHash]
@@ -36,10 +36,10 @@ class Masternode: Record {
         keyIDVoting = row[Columns.keyIDVoting]
         isValid = row[Columns.isValid]
 
-        super.init(row: row)
+        try super.init(row: row)
     }
 
-    override func encode(to container: inout PersistenceContainer) {
+    override func encode(to container: inout PersistenceContainer) throws {
         container[Columns.proRegTxHash] = proRegTxHash
         container[Columns.confirmedHash] = confirmedHash
         container[Columns.confirmedHashWithProRegTxHash] = confirmedHashWithProRegTxHash

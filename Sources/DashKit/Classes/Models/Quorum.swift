@@ -34,7 +34,7 @@ class Quorum: Record {
         case sig
     }
 
-    required init(row: Row) {
+    required init(row: Row) throws {
         dataHash = row[Columns.hash]
         version = row[Columns.version]
         type = row[Columns.type]
@@ -48,10 +48,10 @@ class Quorum: Record {
         quorumSig = row[Columns.quorumSig]
         sig = row[Columns.sig]
 
-        super.init(row: row)
+        try super.init(row: row)
     }
 
-    override func encode(to container: inout PersistenceContainer) {
+    override func encode(to container: inout PersistenceContainer) throws {
         container[Columns.hash] = dataHash
         container[Columns.version] = version
         container[Columns.type] = type
