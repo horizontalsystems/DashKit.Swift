@@ -20,17 +20,17 @@ class InstantTransactionInput: Record {
         case blockHeight
     }
 
-    required init(row: Row) {
+    required init(row: Row) throws {
         txHash = row[Columns.txHash]
         inputTxHash = row[Columns.inputTxHash]
         timeCreated = row[Columns.timeCreated]
         voteCount = row[Columns.voteCount]
         blockHeight = row[Columns.blockHeight]
 
-        super.init(row: row)
+        try super.init(row: row)
     }
 
-    override func encode(to container: inout PersistenceContainer) {
+    override func encode(to container: inout PersistenceContainer) throws {
         container[Columns.txHash] = txHash
         container[Columns.inputTxHash] = inputTxHash
         container[Columns.timeCreated] = timeCreated
