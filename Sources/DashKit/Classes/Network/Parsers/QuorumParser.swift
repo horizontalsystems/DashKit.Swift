@@ -20,7 +20,7 @@ class QuorumParser: IQuorumParser {
 
         var quorumIndexData: Data?
         var quorumIndex: UInt16?
-        if version == 2 { // read v2 quorumIndex
+        if version == 2 || version == 4 { // read v2 quorumIndex
             let indexData = byteStream.read(Data.self, count: 2)
             quorumIndex = indexData.hs.to(type: UInt16.self).littleEndian
             quorumIndexData = indexData
