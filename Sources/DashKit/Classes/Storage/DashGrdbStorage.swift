@@ -73,6 +73,15 @@ class DashGrdbStorage: GrdbStorage {
             }
         }
 
+        migrator.registerMigration("add version-2 columns to Masternode") { db in
+            try db.alter(table: Masternode.databaseTableName) { t in
+                t.add(column: Masternode.Columns.nVersion.name, .integer).notNull().defaults(to: 1)
+                t.add(column: Masternode.Columns.type.name, .integer)
+                t.add(column: Masternode.Columns.platformHTTPPort.name, .integer)
+                t.add(column: Masternode.Columns.platformNodeID.name, .text)
+            }
+        }
+
         return migrator
     }
 

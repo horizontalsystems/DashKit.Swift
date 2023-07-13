@@ -2,6 +2,7 @@ import Foundation
 import GRDB
 
 class Masternode: Record {
+    let nVersion: UInt16
     let proRegTxHash: Data
     let confirmedHash: Data
     var confirmedHashWithProRegTxHash: Data
@@ -10,12 +11,16 @@ class Masternode: Record {
     let pubKeyOperator: Data
     let keyIDVoting: Data
     let isValid: Bool
+    let type: UInt16?
+    let platformHTTPPort: UInt16?
+    let platformNodeID: Data?
 
     override class var databaseTableName: String {
         return "masternodes"
     }
 
     enum Columns: String, ColumnExpression {
+        case nVersion
         case proRegTxHash
         case confirmedHash
         case confirmedHashWithProRegTxHash
@@ -24,9 +29,13 @@ class Masternode: Record {
         case pubKeyOperator
         case keyIDVoting
         case isValid
+        case type
+        case platformHTTPPort
+        case platformNodeID
     }
 
     required init(row: Row) {
+        nVersion = row[Columns.nVersion]
         proRegTxHash = row[Columns.proRegTxHash]
         confirmedHash = row[Columns.confirmedHash]
         confirmedHashWithProRegTxHash = row[Columns.confirmedHashWithProRegTxHash]
@@ -35,11 +44,15 @@ class Masternode: Record {
         pubKeyOperator = row[Columns.pubKeyOperator]
         keyIDVoting = row[Columns.keyIDVoting]
         isValid = row[Columns.isValid]
+        type = row[Columns.type]
+        platformHTTPPort = row[Columns.platformHTTPPort]
+        platformNodeID = row[Columns.platformNodeID]
 
         super.init(row: row)
     }
 
     override func encode(to container: inout PersistenceContainer) {
+        container[Columns.nVersion] = nVersion
         container[Columns.proRegTxHash] = proRegTxHash
         container[Columns.confirmedHash] = confirmedHash
         container[Columns.confirmedHashWithProRegTxHash] = confirmedHashWithProRegTxHash
@@ -48,9 +61,13 @@ class Masternode: Record {
         container[Columns.pubKeyOperator] = pubKeyOperator
         container[Columns.keyIDVoting] = keyIDVoting
         container[Columns.isValid] = isValid
+        container[Columns.type] = type
+        container[Columns.platformHTTPPort] = platformHTTPPort
+        container[Columns.platformNodeID] = platformNodeID
     }
 
-    init(proRegTxHash: Data, confirmedHash: Data, confirmedHashWithProRegTxHash: Data, ipAddress: Data, port: UInt16, pubKeyOperator: Data, keyIDVoting: Data, isValid: Bool) {
+    init(nVersion: UInt16, proRegTxHash: Data, confirmedHash: Data, confirmedHashWithProRegTxHash: Data, ipAddress: Data, port: UInt16, pubKeyOperator: Data, keyIDVoting: Data, isValid: Bool, type: UInt16?, platformHTTPPort: UInt16?, platformNodeID: Data?) {
+        self.nVersion = nVersion
         self.proRegTxHash = proRegTxHash
         self.confirmedHash = confirmedHash
         self.confirmedHashWithProRegTxHash = confirmedHashWithProRegTxHash
@@ -59,6 +76,9 @@ class Masternode: Record {
         self.pubKeyOperator = pubKeyOperator
         self.keyIDVoting = keyIDVoting
         self.isValid = isValid
+        self.type = type
+        self.platformHTTPPort = platformHTTPPort
+        self.platformNodeID = platformNodeID
 
         super.init()
     }

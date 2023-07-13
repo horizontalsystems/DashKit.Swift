@@ -10,6 +10,7 @@ struct MasternodeListDiffMessage: IMessage {
     let merkleFlagsCount: UInt32
     let merkleFlags: Data
     let cbTx: CoinbaseTransaction
+    let nVersion: UInt16
     let deletedMNsCount: UInt32
     let deletedMNs: [Data]
     let mnListCount: UInt32
