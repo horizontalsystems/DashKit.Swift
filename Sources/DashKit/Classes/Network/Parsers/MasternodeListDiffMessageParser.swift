@@ -30,6 +30,7 @@ class MasternodeListDiffMessageParser: IMessageParser {
         let merkleFlags = byteStream.read(Data.self, count: Int(merkleFlagsCount))
         let cbTx = CoinbaseTransaction(byteStream: byteStream)
 
+        let nVersion = byteStream.read(UInt16.self)
         let deletedMNsCount = UInt32((byteStream.read(VarInt.self)).underlyingValue)
         var deletedMNs = [Data]()
         for _ in 0..<deletedMNsCount {
@@ -54,7 +55,8 @@ class MasternodeListDiffMessageParser: IMessageParser {
             quorumList.append(quorumParser.parse(byteStream: byteStream))
         }
 
-        return MasternodeListDiffMessage(baseBlockHash: baseBlockHash,
+        return MasternodeListDiffMessage(
+                baseBlockHash: baseBlockHash,
                 blockHash: blockHash,
                 totalTransactions: totalTransactions,
                 merkleHashesCount: merkleHashesCount,
@@ -62,6 +64,7 @@ class MasternodeListDiffMessageParser: IMessageParser {
                 merkleFlagsCount: merkleFlagsCount,
                 merkleFlags: merkleFlags,
                 cbTx: cbTx,
+                nVersion: nVersion,
                 deletedMNsCount: deletedMNsCount,
                 deletedMNs: deletedMNs,
                 mnListCount: mnListCount,

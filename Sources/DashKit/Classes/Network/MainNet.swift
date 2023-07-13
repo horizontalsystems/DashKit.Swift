@@ -1,7 +1,7 @@
 import BitcoinCore
 
 public class MainNet: INetwork {
-    public let protocolVersion: Int32 = 70220
+    public let protocolVersion: Int32 = 70228
 
     public let bundleName = "Dash"
 
