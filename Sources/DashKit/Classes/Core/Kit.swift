@@ -33,24 +33,38 @@ public class Kit: AbstractKit {
 
     public init(extendedKey: HDExtendedKey, walletId: String, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let network: INetwork
-        var initialSyncApiUrl: String
-
         switch networkType {
-        case .mainNet:
-            network = MainNet()
-            initialSyncApiUrl = "https://insight.dash.org/insight-api"
-        case .testNet:
-            network = TestNet()
-            initialSyncApiUrl = "http://dash-testnet.horizontalsystems.xyz/apg"
+            case .mainNet:
+                network = MainNet()
+            case .testNet:
+                network = TestNet()
         }
 
         let logger = logger ?? Logger(minLogLevel: .verbose)
-
-        let initialSyncApi = InsightApi(url: initialSyncApiUrl, logger: logger)
-
         let databaseFilePath = try DirectoryHelper.directoryURL(for: Kit.name).appendingPathComponent(Kit.databaseFileName(walletId: walletId, networkType: networkType, syncMode: syncMode)).path
         let storage = DashGrdbStorage(databaseFilePath: databaseFilePath)
         self.storage = storage
+        let apiSyncStateManager = ApiSyncStateManager(storage: storage, restoreFromApi: network.syncableFromApi && syncMode != BitcoinCore.SyncMode.full)
+
+        let apiTransactionProvider: IApiTransactionProvider
+        switch networkType {
+        case .mainNet:
+            let apiTransactionProviderUrl = "https://insight.dash.org/insight-api"
+
+            if case .blockchair(let key) = syncMode {
+                let blockchairApi = BlockchairApi(secretKey: key, chainId: network.blockchairChainId, logger: logger)
+                let blockchairBlockHashFetcher = BlockchairBlockHashFetcher(blockchairApi: blockchairApi)
+                let blockchairProvider = BlockchairTransactionProvider(blockchairApi: blockchairApi, blockHashFetcher: blockchairBlockHashFetcher)
+                let insightApiProvider = InsightApi(url: apiTransactionProviderUrl, logger: logger)
+
+                apiTransactionProvider = BiApiBlockProvider(restoreProvider: insightApiProvider, syncProvider: blockchairProvider, apiSyncStateManager: apiSyncStateManager)
+            } else {
+                apiTransactionProvider = InsightApi(url: apiTransactionProviderUrl, logger: logger)
+            }
+
+        case .testNet:
+            apiTransactionProvider = InsightApi(url: "http://dash-testnet.horizontalsystems.xyz/apg", logger: logger)
+        }
 
         let paymentAddressParser = PaymentAddressParser(validScheme: "dash", removeScheme: true)
 
@@ -86,7 +100,9 @@ public class Kit: AbstractKit {
         let bitcoinCore = try BitcoinCoreBuilder(logger: logger)
                 .set(network: network)
                 .set(extendedKey: extendedKey)
-                .set(initialSyncApi: initialSyncApi)
+                .set(apiTransactionProvider: apiTransactionProvider)
+                .set(checkpoint: Checkpoint.resolveCheckpoint(network: network, syncMode: syncMode, storage: storage))
+                .set(apiSyncStateManager: apiSyncStateManager)
                 .set(paymentAddressParser: paymentAddressParser)
                 .set(walletId: walletId)
                 .set(confirmationsThreshold: confirmationsThreshold)
@@ -127,11 +143,11 @@ public class Kit: AbstractKit {
         let quorumListMerkleRootCalculator = QuorumListMerkleRootCalculator(merkleRootCreator: quorumMerkleRootCreator, quorumHasher: doubleShaHasher)
         let quorumListManager = QuorumListManager(storage: storage, hasher: doubleShaHasher, quorumListMerkleRootCalculator: quorumListMerkleRootCalculator, merkleBranch: merkleBranch)
         let masternodeListManager = MasternodeListManager(storage: storage, quorumListManager: quorumListManager, masternodeListMerkleRootCalculator: masternodeListMerkleRootCalculator, masternodeCbTxHasher: masternodeCbTxHasher, merkleBranch: merkleBranch)
-        let masternodeSyncer = MasternodeListSyncer(bitcoinCore: bitcoinCore, initialBlockDownload: bitcoinCore.initialBlockDownload, peerTaskFactory: PeerTaskFactory(), masternodeListManager: masternodeListManager)
+        let masternodeSyncer = MasternodeListSyncer(bitcoinCore: bitcoinCore, initialBlockDownload: bitcoinCore.initialDownload, peerTaskFactory: PeerTaskFactory(), masternodeListManager: masternodeListManager)
 
         bitcoinCore.add(peerTaskHandler: masternodeSyncer)
 
-        masternodeSyncer.subscribeTo(publisher: bitcoinCore.initialBlockDownload.publisher)
+        masternodeSyncer.subscribeTo(publisher: bitcoinCore.initialDownload.publisher)
         masternodeSyncer.subscribeTo(publisher: bitcoinCore.peerGroup.publisher)
 
         self.masternodeSyncer = masternodeSyncer
