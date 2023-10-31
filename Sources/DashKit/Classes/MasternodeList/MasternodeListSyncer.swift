@@ -5,14 +5,14 @@ import BitcoinCore
 class MasternodeListSyncer: IMasternodeListSyncer {
     private var cancellables = Set<AnyCancellable>()
     private weak var bitcoinCore: BitcoinCore?
-    private let initialBlockDownload: IInitialBlockDownload
+    private let initialBlockDownload: IInitialDownload
     private let peerTaskFactory: IPeerTaskFactory
     private let masternodeListManager: IMasternodeListManager
 
     private var workingPeer: IPeer? = nil
     private let queue: DispatchQueue
 
-    init(bitcoinCore: BitcoinCore, initialBlockDownload: IInitialBlockDownload, peerTaskFactory: IPeerTaskFactory, masternodeListManager: IMasternodeListManager,
+    init(bitcoinCore: BitcoinCore, initialBlockDownload: IInitialDownload, peerTaskFactory: IPeerTaskFactory, masternodeListManager: IMasternodeListManager,
          queue: DispatchQueue = DispatchQueue(label: "io.horizontalsystems.dash-kit.masternode-list-syncer", qos: .background)) {
         self.bitcoinCore = bitcoinCore
         self.initialBlockDownload = initialBlockDownload
@@ -52,7 +52,7 @@ class MasternodeListSyncer: IMasternodeListSyncer {
                 .store(in: &cancellables)
     }
 
-    func subscribeTo(publisher: AnyPublisher<InitialBlockDownloadEvent, Never>) {
+    func subscribeTo(publisher: AnyPublisher<InitialDownloadEvent, Never>) {
         publisher
                 .sink { [weak self] event in
                     switch event {

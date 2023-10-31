@@ -17,6 +17,7 @@ public class MainNet: INetwork {
     public let coinType: UInt32 = 5
     public let sigHash: SigHashType = .bitcoinAll
     public var syncableFromApi: Bool = true
+    public var blockchairChainId: String = "dash"
 
     public let dnsSeeds = [
         "dnsseed.dash.org",
