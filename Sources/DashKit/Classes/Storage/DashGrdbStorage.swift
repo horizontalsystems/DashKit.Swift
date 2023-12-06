@@ -1,9 +1,8 @@
+import BitcoinCore
 import Foundation
 import GRDB
-import BitcoinCore
 
 class DashGrdbStorage: GrdbStorage {
-
     override var migrator: GRDB.DatabaseMigrator {
         var migrator = super.migrator
 
@@ -84,14 +83,12 @@ class DashGrdbStorage: GrdbStorage {
 
         return migrator
     }
-
 }
 
 extension DashGrdbStorage: IDashStorage {
-
     var masternodes: [Masternode] {
         get {
-            return try! dbPool.read { db in
+            try! dbPool.read { db in
                 try Masternode.fetchAll(db)
             }
         }
@@ -105,7 +102,7 @@ extension DashGrdbStorage: IDashStorage {
 
     var quorums: [Quorum] {
         get {
-            return try! dbPool.read { db in
+            try! dbPool.read { db in
                 try Quorum.fetchAll(db)
             }
         }
@@ -119,12 +116,12 @@ extension DashGrdbStorage: IDashStorage {
 
     var masternodeListState: MasternodeListState? {
         get {
-            return try! dbPool.read { db in
+            try! dbPool.read { db in
                 try MasternodeListState.fetchOne(db)
             }
         }
         set {
-            guard let newValue = newValue else {
+            guard let newValue else {
                 _ = try? dbPool.write { db in
                     try MasternodeListState.deleteAll(db)
                 }
@@ -137,14 +134,14 @@ extension DashGrdbStorage: IDashStorage {
     }
 
     func quorums(by type: QuorumType) -> [Quorum] {
-        return try! dbPool.read { db in
+        try! dbPool.read { db in
             try Quorum.filter(Quorum.Columns.type == type.rawValue).fetchAll(db)
         }
     }
 
     func instantTransactionHashes() -> [Data] {
-        return try! dbPool.read { db in
-            try InstantTransactionHash.fetchAll(db).map { $0.txHash }
+        try! dbPool.read { db in
+            try InstantTransactionHash.fetchAll(db).map(\.txHash)
         }
     }
 
@@ -167,15 +164,14 @@ extension DashGrdbStorage: IDashStorage {
     }
 
     func instantTransactionInputs(for txHash: Data) -> [InstantTransactionInput] {
-        return try! dbPool.read { db in
+        try! dbPool.read { db in
             try InstantTransactionInput.filter(InstantTransactionInput.Columns.txHash == txHash).fetchAll(db)
         }
     }
 
     func instantTransactionInput(for inputTxHash: Data) -> InstantTransactionInput? {
-        return try! dbPool.read { db in
+        try! dbPool.read { db in
             try InstantTransactionInput.filter(InstantTransactionInput.Columns.inputTxHash == inputTxHash).fetchOne(db)
         }
     }
-
 }

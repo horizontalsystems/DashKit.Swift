@@ -6,13 +6,13 @@ public class MainNet: INetwork {
     public let bundleName = "Dash"
 
     public let maxBlockSize: UInt32 = 2_000_000_000
-    public let pubKeyHash: UInt8 = 0x4c
+    public let pubKeyHash: UInt8 = 0x4C
     public let privateKey: UInt8 = 0x80
     public let scriptHash: UInt8 = 0x10
     public let bech32PrefixPattern: String = "bc"
-    public let xPubKey: UInt32 = 0x0488b21e
-    public let xPrivKey: UInt32 = 0x0488ade4
-    public let magic: UInt32 = 0xbf0c6bbd
+    public let xPubKey: UInt32 = 0x0488_B21E
+    public let xPrivKey: UInt32 = 0x0488_ADE4
+    public let magic: UInt32 = 0xBF0C_6BBD
     public let port = 9999
     public let coinType: UInt32 = 5
     public let sigHash: SigHashType = .bitcoinAll

@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class MasternodeParser: IMasternodeParser {
     let hasher: IDashHasher
@@ -33,5 +33,4 @@ class MasternodeParser: IMasternodeParser {
 
         return Masternode(nVersion: nVersion, proRegTxHash: proRegTxHash, confirmedHash: confirmedHash, confirmedHashWithProRegTxHash: confirmedHashWithProRegTxHash, ipAddress: ipAddress, port: port, pubKeyOperator: pubKeyOperator, keyIDVoting: keyIDVoting, isValid: isValid, type: type, platformHTTPPort: platformHTTPPort, platformNodeID: platformNodeID)
     }
-
 }

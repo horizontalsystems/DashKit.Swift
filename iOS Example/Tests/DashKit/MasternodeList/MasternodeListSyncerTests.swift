@@ -1,11 +1,11 @@
-//import Foundation
-//import XCTest
-//import Quick
-//import Nimble
-//import Cuckoo
-//@testable import BitcoinCore
+// import Foundation
+// import XCTest
+// import Quick
+// import Nimble
+// import Cuckoo
+// @testable import BitcoinCore
 //
-//class MasternodeListSyncerTests: QuickSpec {
+// class MasternodeListSyncerTests: QuickSpec {
 //
 //    override func spec() {
 //        let mockPeerGroup = MockIPeerGroup()
@@ -110,4 +110,4 @@
 //                deletedMNs: [], mnListCount: 0, mnList: [])
 //    }
 //
-//}
+// }

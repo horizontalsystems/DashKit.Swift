@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsToolKit
 
 class InstantSendLockHandler: IInstantSendLockHandler {
@@ -11,7 +11,7 @@ class InstantSendLockHandler: IInstantSendLockHandler {
 
     init(instantTransactionManager: IInstantTransactionManager, instantSendLockManager: IInstantSendLockManager, logger: Logger? = nil) {
         self.instantTransactionManager = instantTransactionManager
-        self.instantLockManager = instantSendLockManager
+        instantLockManager = instantSendLockManager
         self.logger = logger
     }
 
@@ -46,5 +46,4 @@ class InstantSendLockHandler: IInstantSendLockHandler {
             logger?.error(error)
         }
     }
-
 }

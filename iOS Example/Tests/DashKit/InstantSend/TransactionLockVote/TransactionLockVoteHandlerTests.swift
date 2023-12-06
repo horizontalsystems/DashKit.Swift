@@ -1,13 +1,12 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
-import Cuckoo
 @testable import BitcoinCore
+import Cuckoo
 @testable import DashKit
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class TransactionLockVoteHandlerTests: QuickSpec {
-
     override func spec() {
         let mockInstantTransactionDelegate = MockIInstantTransactionDelegate()
         let mockLockVoteManager = MockITransactionLockVoteManager()
@@ -29,11 +28,9 @@ class TransactionLockVoteHandlerTests: QuickSpec {
         let otherHash = Data(hex: "0123")!
         let otherLockVote = DashTestData.transactionLockVote(txHash: otherHash, inputTxHash: otherHash, hash: otherHash)
 
-
         let instantInputs = [
             InstantTransactionInput(txHash: txHash, inputTxHash: inputTxHash, timeCreated: 0, voteCount: 0, blockHeight: nil),
         ]
-
 
         describe("#handle(transaction: FullTransaction)") {
             context("when transaction already instant") {
@@ -62,7 +59,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                             }
                             handler.handle(transaction: transaction)
                             verify(mockLockVoteManager).takeRelayedLockVotes(for: equal(to: txHash))
-                            //check stops
+                            // check stops
                             verify(mockLockVoteManager, never()).add(checked: any())
                         }
                     }
@@ -82,7 +79,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                 }
                                 handler.handle(transaction: transaction)
                                 verify(mockLockVoteManager).add(checked: any())
-                                //check stops
+                                // check stops
                                 verify(mockLockVoteManager, never()).validate(lockVote: any())
                             }
                         }
@@ -101,7 +98,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                     }
                                     handler.handle(transaction: transaction)
 
-                                    //check stops
+                                    // check stops
                                     verify(mockLockVoteManager, never()).validate(lockVote: any())
                                 }
                                 it("stops processing with more") {
@@ -111,7 +108,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                     }
                                     handler.handle(transaction: transaction)
 
-                                    //check stops
+                                    // check stops
                                     verify(mockLockVoteManager, never()).validate(lockVote: any())
                                 }
                             }
@@ -126,7 +123,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                         handler.handle(transaction: transaction)
 
                                         verify(mockLockVoteManager).validate(lockVote: equal(to: lockVote))
-                                        //check stops
+                                        // check stops
                                         verify(mockInstantTransactionManager, never()).updateInput(for: any(), transactionInputs: any())
                                     }
                                 }
@@ -150,7 +147,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                             verify(mockInstantTransactionManager).updateInput(for: equal(to: inputTxHash), transactionInputs: equal(to: instantInputs))
                                             // call before handling vote and after to check new status
                                             verify(mockInstantTransactionManager, times(2)).isTransactionInstant(txHash: equal(to: txHash))
-                                            //check stops
+                                            // check stops
                                             verify(mockInstantTransactionDelegate, never()).onUpdateInstant(transactionHash: equal(to: txHash))
                                         }
                                         context("when transaction become instant") {
@@ -165,7 +162,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
 
                                                 // call before handling vote and after to check new status
                                                 verify(mockInstantTransactionManager, times(2)).isTransactionInstant(txHash: equal(to: txHash))
-                                                //check stops
+                                                // check stops
                                                 verify(mockInstantTransactionDelegate).onUpdateInstant(transactionHash: equal(to: txHash))
                                             }
                                         }
@@ -201,7 +198,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                             }
                             handler.handle(lockVote: lockVote)
 
-                            //check stops
+                            // check stops
                             verify(mockLockVoteManager).processed(lvHash: equal(to: voteHash))
                             verify(mockInstantTransactionManager, never()).instantTransactionInputs(for: any(), instantTransaction: any())
                         }
@@ -222,7 +219,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                 }
                                 handler.handle(lockVote: lockVote)
 
-                                //check stops
+                                // check stops
                                 verify(mockInstantTransactionManager).instantTransactionInputs(for: equal(to: txHash), instantTransaction: equal(to: nil))
                                 verify(mockLockVoteManager).add(relayed: equal(to: lockVote))
                                 verify(mockLockVoteManager, never()).add(checked: equal(to: lockVote))
@@ -242,7 +239,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                     }
                                     handler.handle(lockVote: lockVote)
 
-                                    //check stops
+                                    // check stops
                                     verify(mockLockVoteManager, never()).validate(lockVote: any())
                                 }
                                 it("stops processing with more") {
@@ -252,7 +249,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                     }
                                     handler.handle(lockVote: lockVote)
 
-                                    //check stops
+                                    // check stops
                                     verify(mockLockVoteManager, never()).validate(lockVote: any())
                                 }
                             }
@@ -272,7 +269,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                         handler.handle(lockVote: lockVote)
 
                                         verify(mockLockVoteManager).validate(lockVote: equal(to: lockVote))
-                                        //check stops
+                                        // check stops
                                         verify(mockInstantTransactionManager, never()).updateInput(for: any(), transactionInputs: any())
                                     }
                                 }
@@ -296,7 +293,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
                                             verify(mockInstantTransactionManager).updateInput(for: equal(to: inputTxHash), transactionInputs: equal(to: instantInputs))
                                             // call before handling vote and after to check new status
                                             verify(mockInstantTransactionManager, times(2)).isTransactionInstant(txHash: equal(to: txHash))
-                                            //check stops
+                                            // check stops
                                             verify(mockInstantTransactionDelegate, never()).onUpdateInstant(transactionHash: equal(to: txHash))
                                         }
                                         context("when transaction become instant") {
@@ -311,7 +308,7 @@ class TransactionLockVoteHandlerTests: QuickSpec {
 
                                                 // call before handling vote and after to check new status
                                                 verify(mockInstantTransactionManager, times(2)).isTransactionInstant(txHash: equal(to: txHash))
-                                                //check stops
+                                                // check stops
                                                 verify(mockInstantTransactionDelegate).onUpdateInstant(transactionHash: equal(to: txHash))
                                             }
                                         }

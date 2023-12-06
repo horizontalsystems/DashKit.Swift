@@ -1,9 +1,9 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsExtensions
 
 struct CoinbaseTransaction {
-    private let coinbasePayloadSize = 70    // additional size of coinbase v2 parameters
+    private let coinbasePayloadSize = 70 // additional size of coinbase v2 parameters
     let transaction: FullTransaction
     let coinbaseTransactionSize: Data
     let version: UInt16
@@ -34,5 +34,4 @@ struct CoinbaseTransaction {
             _ = byteStream.read(Data.self, count: needToRead)
         }
     }
-
 }

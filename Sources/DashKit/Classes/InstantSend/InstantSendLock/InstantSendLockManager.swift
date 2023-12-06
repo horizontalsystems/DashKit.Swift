@@ -1,8 +1,7 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class InstantSendLockManager: IInstantSendLockManager {
-
     private let instantSendLockValidator: IInstantSendLockValidator
 
     private(set) var relayedLocks = [Data: ISLockMessage]()
@@ -26,5 +25,4 @@ class InstantSendLockManager: IInstantSendLockManager {
     func validate(isLock: ISLockMessage) throws {
         try instantSendLockValidator.validate(isLock: isLock)
     }
-
 }

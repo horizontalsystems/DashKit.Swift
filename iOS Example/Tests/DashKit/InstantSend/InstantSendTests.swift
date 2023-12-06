@@ -1,13 +1,12 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
-import Cuckoo
 @testable import BitcoinCore
+import Cuckoo
 @testable import DashKit
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class InstantSendTests: QuickSpec {
-
     override func spec() {
         let mockTransactionSyncer = MockIDashTransactionSyncer()
         let mockTransactionLockVoteHandler = MockITransactionLockVoteHandler()

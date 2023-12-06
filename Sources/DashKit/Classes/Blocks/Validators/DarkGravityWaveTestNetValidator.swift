@@ -37,7 +37,6 @@ class DarkGravityWaveTestNetValidator: IBlockChainedValidator {
     }
 
     func isBlockValidatable(block: Block, previousBlock: Block) -> Bool {
-        return block.height >= powDGWHeight && (block.timestamp > previousBlock.timestamp + 4 * targetSpacing)
+        block.height >= powDGWHeight && (block.timestamp > previousBlock.timestamp + 4 * targetSpacing)
     }
-
 }

@@ -1,11 +1,10 @@
-import XCTest
-import Cuckoo
 import BigInt
-@testable import DashKit
 @testable import BitcoinCore
+import Cuckoo
+@testable import DashKit
+import XCTest
 
 class DarkGravityWaveTestNetValidatorTests: XCTestCase {
-
     private var validator: DarkGravityWaveTestNetValidator!
     private var mockDifficultyEncoder: MockIDashDifficultyEncoder!
 
@@ -17,31 +16,33 @@ class DarkGravityWaveTestNetValidatorTests: XCTestCase {
 
         mockDifficultyEncoder = MockIDashDifficultyEncoder()
 
-        validator = DarkGravityWaveTestNetValidator(difficultyEncoder: mockDifficultyEncoder, targetSpacing: 150, targetTimeSpan: 3600, maxTargetBits: 0x1e0fffff)
+        validator = DarkGravityWaveTestNetValidator(difficultyEncoder: mockDifficultyEncoder, targetSpacing: 150, targetTimeSpan: 3600, maxTargetBits: 0x1E0F_FFFF)
 
         block = Block(
-                withHeader: BlockHeader(
-                        version: 1,
-                        headerHash: Data(),
-                        previousBlockHeaderHash: Data(),
-                        merkleRoot: Data(),
-                        timestamp: 10000,
-                        bits: 0x1e0fffff,
-                        nonce: 1
-                ),
-                height: 123457)
+            withHeader: BlockHeader(
+                version: 1,
+                headerHash: Data(),
+                previousBlockHeaderHash: Data(),
+                merkleRoot: Data(),
+                timestamp: 10000,
+                bits: 0x1E0F_FFFF,
+                nonce: 1
+            ),
+            height: 123_457
+        )
 
         previousBlock = Block(
-                withHeader: BlockHeader(
-                        version: 1,
-                        headerHash: Data(),
-                        previousBlockHeaderHash: Data(),
-                        merkleRoot: Data(),
-                        timestamp: 10000 - 2 * 3600 - 1,
-                        bits: 0x1b1441aa,
-                        nonce: 1
-                ),
-                height: 123456)
+            withHeader: BlockHeader(
+                version: 1,
+                headerHash: Data(),
+                previousBlockHeaderHash: Data(),
+                merkleRoot: Data(),
+                timestamp: 10000 - 2 * 3600 - 1,
+                bits: 0x1B14_41AA,
+                nonce: 1
+            ),
+            height: 123_456
+        )
     }
 
     override func tearDown() {
@@ -65,7 +66,7 @@ class DarkGravityWaveTestNetValidatorTests: XCTestCase {
     func testValidateMaxTarget() {
         do {
             try validator.validate(block: block, previousBlock: previousBlock)
-        } catch let error {
+        } catch {
             XCTFail("\(error) Exception Thrown")
         }
     }
@@ -79,9 +80,8 @@ class DarkGravityWaveTestNetValidatorTests: XCTestCase {
         }
         do {
             try validator.validate(block: block, previousBlock: previousBlock)
-        } catch let error {
+        } catch {
             XCTFail("\(error) Exception Thrown")
         }
     }
-
 }

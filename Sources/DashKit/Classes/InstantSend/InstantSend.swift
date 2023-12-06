@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsToolKit
 
 enum DashInventoryType: Int32 { case msgTxLockRequest = 4, msgTxLockVote = 5, msgIsLock = 30 }
@@ -25,12 +25,10 @@ class InstantSend {
     public func handle(insertedTxHash: Data) {
         instantSendLockHandler.handle(transactionHash: insertedTxHash)
     }
-
 }
 
 extension InstantSend: IPeerTaskHandler {
-
-    public func handleCompletedTask(peer: IPeer, task: PeerTask) -> Bool {
+    public func handleCompletedTask(peer _: IPeer, task: PeerTask) -> Bool {
         switch task {
         case let task as RequestTransactionLockRequestsTask:
             dispatchQueue.async {
@@ -73,11 +71,9 @@ extension InstantSend: IPeerTaskHandler {
             instantSendLockHandler.handle(isLock: isLock)
         }
     }
-
 }
 
 extension InstantSend: IInventoryItemsHandler {
-
     func handleInventoryItems(peer: IPeer, inventoryItems: [InventoryItem]) {
         var transactionLockRequests = [Data]()
         var transactionLockVotes = [Data]()
@@ -107,5 +103,4 @@ extension InstantSend: IInventoryItemsHandler {
             peer.add(task: RequestLlmqInstantLocksTask(hashes: isLocks))
         }
     }
-
 }

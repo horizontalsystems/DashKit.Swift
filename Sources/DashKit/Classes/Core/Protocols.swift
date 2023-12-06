@@ -1,6 +1,6 @@
-import Foundation
 import BigInt
 import BitcoinCore
+import Foundation
 
 // BitcoinCore Compatibility
 
@@ -71,8 +71,7 @@ protocol IQuorumListManager {
     func quorum(for requestID: Data, type: QuorumType) throws -> Quorum
 }
 
-protocol IMasternodeListSyncer {
-}
+protocol IMasternodeListSyncer {}
 
 protocol IDashStorage {
     var masternodes: [Masternode] { get set }
@@ -208,5 +207,3 @@ protocol IInstantSendLockManager {
 
     func validate(isLock: ISLockMessage) throws
 }
-
-

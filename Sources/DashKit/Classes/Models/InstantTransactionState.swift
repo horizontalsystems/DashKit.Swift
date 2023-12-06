@@ -6,5 +6,4 @@ class InstantTransactionState: IInstantTransactionState {
     func append(_ hash: Data) {
         instantTransactionHashes.append(hash)
     }
-
 }

@@ -1,6 +1,6 @@
+import BitcoinCore
 import Foundation
 import HsExtensions
-import BitcoinCore
 
 class RequestMasternodeListDiffTask: PeerTask {
     let baseBlockHash: Data
@@ -30,5 +30,4 @@ class RequestMasternodeListDiffTask: PeerTask {
         }
         return false
     }
-
 }

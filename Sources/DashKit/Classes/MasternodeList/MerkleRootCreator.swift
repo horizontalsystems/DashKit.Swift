@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class MerkleRootCreator: IMerkleRootCreator {
     private struct MerkleChunk {
@@ -21,7 +21,7 @@ class MerkleRootCreator: IMerkleRootCreator {
         repeat {
             tmpHashes = joinHashes(hashes: tmpHashes)
         } while tmpHashes.count > 1
-        
+
         return tmpHashes.first
     }
 
@@ -40,5 +40,4 @@ class MerkleRootCreator: IMerkleRootCreator {
             return MerkleChunk(first: data[$0], last: data[upperBound])
         }
     }
-
 }

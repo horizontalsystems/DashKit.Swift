@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class SpecialTransaction: FullTransaction {
     let extraPayload: Data

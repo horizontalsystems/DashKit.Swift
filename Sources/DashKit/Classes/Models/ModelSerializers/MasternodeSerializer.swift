@@ -1,7 +1,6 @@
 import Foundation
 
 class MasternodeSerializer: IMasternodeSerializer {
-
     func serialize(masternode: Masternode) -> Data {
         var data = Data()
 //        data += Data(from: masternode.nVersion)   // version must be ignore when validating hash
@@ -26,5 +25,4 @@ class MasternodeSerializer: IMasternodeSerializer {
 
         return data
     }
-
 }

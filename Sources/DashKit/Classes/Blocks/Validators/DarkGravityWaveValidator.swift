@@ -1,5 +1,5 @@
-import BitcoinCore
 import BigInt
+import BitcoinCore
 
 class DarkGravityWaveValidator: IBlockChainedValidator {
     private let difficultyEncoder: IDashDifficultyEncoder
@@ -11,7 +11,7 @@ class DarkGravityWaveValidator: IBlockChainedValidator {
     private let powDGWHeight: Int
 
     init(encoder: IDashDifficultyEncoder, blockHelper: IDashBlockValidatorHelper, heightInterval: Int, targetTimeSpan: Int, maxTargetBits: Int, powDGWHeight: Int) {
-        self.difficultyEncoder = encoder
+        difficultyEncoder = encoder
         self.blockHelper = blockHelper
 
         self.heightInterval = heightInterval
@@ -27,7 +27,7 @@ class DarkGravityWaveValidator: IBlockChainedValidator {
         var avgTargets = blockTarget
         var prevBlock: Block? = blockHelper.previous(for: previousBlock, count: 1)
 
-        for blockCount in 2...heightInterval {
+        for blockCount in 2 ... heightInterval {
             guard let currentBlock = prevBlock else {
                 throw BitcoinCoreErrors.BlockValidation.noPreviousBlock
             }
@@ -41,9 +41,9 @@ class DarkGravityWaveValidator: IBlockChainedValidator {
             }
         }
         var darkTarget = avgTargets
-        if (actualTimeSpan < targetTimeSpan / 3) {
+        if actualTimeSpan < targetTimeSpan / 3 {
             actualTimeSpan = targetTimeSpan / 3
-        } else if (actualTimeSpan > targetTimeSpan * 3) {
+        } else if actualTimeSpan > targetTimeSpan * 3 {
             actualTimeSpan = targetTimeSpan * 3
         }
 
@@ -55,8 +55,7 @@ class DarkGravityWaveValidator: IBlockChainedValidator {
         }
     }
 
-    func isBlockValidatable(block: Block, previousBlock: Block) -> Bool {
+    func isBlockValidatable(block: Block, previousBlock _: Block) -> Bool {
         block.height >= powDGWHeight
     }
-
 }

@@ -1,8 +1,7 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class RequestTransactionLockRequestsTask: PeerTask {
-
     var hashes = [Data]()
     var transactions = [FullTransaction]()
 
@@ -39,5 +38,4 @@ class RequestTransactionLockRequestsTask: PeerTask {
 
         return true
     }
-
 }

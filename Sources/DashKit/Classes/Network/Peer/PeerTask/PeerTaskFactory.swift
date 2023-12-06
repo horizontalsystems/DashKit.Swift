@@ -1,10 +1,8 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class PeerTaskFactory: IPeerTaskFactory {
-
     func createRequestMasternodeListDiffTask(baseBlockHash: Data, blockHash: Data) -> PeerTask {
-        return RequestMasternodeListDiffTask(baseBlockHash: baseBlockHash, blockHash: blockHash)
+        RequestMasternodeListDiffTask(baseBlockHash: baseBlockHash, blockHash: blockHash)
     }
-
 }

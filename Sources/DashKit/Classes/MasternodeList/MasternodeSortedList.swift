@@ -3,8 +3,7 @@ import Foundation
 class MasternodeSortedList: IMasternodeSortedList {
     private var masternodeSet = Set<Masternode>()
 
-    var masternodes: [Masternode] { return
-            masternodeSet.sorted()
+    var masternodes: [Masternode] { masternodeSet.sorted()
     }
 
     func add(masternodes: [Masternode]) {
@@ -26,5 +25,4 @@ class MasternodeSortedList: IMasternodeSortedList {
     func removeAll() {
         masternodeSet.removeAll()
     }
-
 }

@@ -1,13 +1,12 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
+@testable import BitcoinCore
 import Cuckoo
 @testable import DashKit
-@testable import BitcoinCore
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class MasternodeListMerkleRootCalculatorTests: QuickSpec {
-
     override func spec() {
         let mockSerializer = MockIMasternodeSerializer()
         let mockCreator = MockIMerkleRootCreator()
@@ -62,5 +61,4 @@ class MasternodeListMerkleRootCalculatorTests: QuickSpec {
             }
         }
     }
-
 }

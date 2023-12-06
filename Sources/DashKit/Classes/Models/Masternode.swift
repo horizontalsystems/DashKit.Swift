@@ -16,7 +16,7 @@ class Masternode: Record {
     let platformNodeID: Data?
 
     override class var databaseTableName: String {
-        return "masternodes"
+        "masternodes"
     }
 
     enum Columns: String, ColumnExpression {
@@ -82,21 +82,18 @@ class Masternode: Record {
 
         super.init()
     }
-
 }
 
 extension Masternode: Hashable, Comparable {
-
     public func hash(into hasher: inout Hasher) {
         hasher.combine(proRegTxHash)
     }
 
-    public static func ==(lhs: Masternode, rhs: Masternode) -> Bool {
-        return lhs.proRegTxHash == rhs.proRegTxHash
+    public static func == (lhs: Masternode, rhs: Masternode) -> Bool {
+        lhs.proRegTxHash == rhs.proRegTxHash
     }
 
-    public static func <(lhs: Masternode, rhs: Masternode) -> Bool {
-        return lhs.proRegTxHash < rhs.proRegTxHash
+    public static func < (lhs: Masternode, rhs: Masternode) -> Bool {
+        lhs.proRegTxHash < rhs.proRegTxHash
     }
-
 }

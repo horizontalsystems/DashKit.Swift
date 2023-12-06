@@ -5,7 +5,7 @@ class InstantTransactionHash: Record {
     let txHash: Data
 
     override class var databaseTableName: String {
-        return "instantTransactionHashes"
+        "instantTransactionHashes"
     }
 
     enum Columns: String, ColumnExpression {
@@ -27,5 +27,4 @@ class InstantTransactionHash: Record {
 
         super.init()
     }
-
 }
