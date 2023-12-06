@@ -10,5 +10,4 @@ class InstantTransactionSyncer: IDashTransactionSyncer {
     func handleRelayed(transactions: [FullTransaction]) {
         transactionSyncer.handleRelayed(transactions: transactions)
     }
-
 }

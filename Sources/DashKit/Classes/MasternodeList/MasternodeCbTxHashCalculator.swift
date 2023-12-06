@@ -1,10 +1,9 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class MasternodeCbTxHasher: IMasternodeCbTxHasher {
     private let coinbaseTransactionSerializer: ICoinbaseTransactionSerializer
     private let hasher: IDashHasher
-
 
     init(coinbaseTransactionSerializer: ICoinbaseTransactionSerializer, hasher: IDashHasher) {
         self.coinbaseTransactionSerializer = coinbaseTransactionSerializer
@@ -16,5 +15,4 @@ class MasternodeCbTxHasher: IMasternodeCbTxHasher {
 
         return hasher.hash(data: serialized)
     }
-
 }

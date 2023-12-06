@@ -8,11 +8,9 @@ class DashTransactionInfoConverter: ITransactionInfoConverter {
         self.instantTransactionManager = instantTransactionManager
     }
 
-
     func transactionInfo(fromTransaction transactionForInfo: FullTransactionForInfo) -> TransactionInfo {
         let txInfo: DashTransactionInfo = baseTransactionInfoConverter.transactionInfo(fromTransaction: transactionForInfo)
         txInfo.instantTx = instantTransactionManager.isTransactionInstant(txHash: transactionForInfo.transactionWithBlock.transaction.dataHash)
         return txInfo
     }
-
 }

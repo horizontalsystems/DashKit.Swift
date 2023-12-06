@@ -9,7 +9,7 @@ class InstantTransactionInput: Record {
     let blockHeight: Int?
 
     override class var databaseTableName: String {
-        return "instantTransactionInputs"
+        "instantTransactionInputs"
     }
 
     enum Columns: String, ColumnExpression {
@@ -47,5 +47,4 @@ class InstantTransactionInput: Record {
 
         super.init()
     }
-
 }

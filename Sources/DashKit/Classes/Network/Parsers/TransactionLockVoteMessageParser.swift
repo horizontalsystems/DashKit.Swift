@@ -1,10 +1,10 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsCryptoKit
 import HsExtensions
 
 class TransactionLockVoteMessageParser: IMessageParser {
-    var id: String { return "txlvote" }
+    var id: String { "txlvote" }
 
     func parse(data: Data) -> IMessage {
         let byteStream = ByteStream(data)
@@ -20,11 +20,10 @@ class TransactionLockVoteMessageParser: IMessageParser {
         let hash = Crypto.doubleSha256(data.prefix(168))
 
         return TransactionLockVoteMessage(txHash: txHash,
-                outpoint: outpoint,
-                outpointMasternode: outpointMasternode,
-                quorumModifierHash: quorumModifierHash,
-                masternodeProTxHash: masternodeProTxHash,
-                vchMasternodeSignature: vchMasternodeSignature, hash: hash)
+                                          outpoint: outpoint,
+                                          outpointMasternode: outpointMasternode,
+                                          quorumModifierHash: quorumModifierHash,
+                                          masternodeProTxHash: masternodeProTxHash,
+                                          vchMasternodeSignature: vchMasternodeSignature, hash: hash)
     }
-
 }

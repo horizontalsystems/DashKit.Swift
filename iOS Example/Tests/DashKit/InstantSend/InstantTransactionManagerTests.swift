@@ -1,12 +1,11 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
 import Cuckoo
 @testable import DashKit
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class InstantTransactionManagerTests: QuickSpec {
-
     override func spec() {
         let mockStorage = MockIDashStorage()
         let mockInstantSendFactory = MockIInstantSendFactory()
@@ -121,8 +120,7 @@ class InstantTransactionManagerTests: QuickSpec {
                 }
                 describe("when all inputs has expected voteCount") {
                     let inputs = [InstantTransactionInput(txHash: txHash, inputTxHash: inputTxHash, timeCreated: 0, voteCount: 5, blockHeight: nil),
-                                         InstantTransactionInput(txHash: txHash, inputTxHash: Data(repeating: 8, count: 2), timeCreated: 0, voteCount: 6, blockHeight: nil)
-                    ]
+                                  InstantTransactionInput(txHash: txHash, inputTxHash: Data(repeating: 8, count: 2), timeCreated: 0, voteCount: 6, blockHeight: nil)]
                     let updatedInput = InstantTransactionInput(txHash: txHash, inputTxHash: inputTxHash, timeCreated: 0, voteCount: 6, blockHeight: nil)
                     beforeEach {
                         stub(mockStorage) { mock in
@@ -147,7 +145,7 @@ class InstantTransactionManagerTests: QuickSpec {
         }
         describe("#isTransactionInstant(txHash: Data)") {
             beforeEach {
-                stub(mockState) {mock in
+                stub(mockState) { mock in
                     when(mock.instantTransactionHashes.get).thenReturn([])
                 }
             }
@@ -171,7 +169,7 @@ class InstantTransactionManagerTests: QuickSpec {
             let existTxHash = Data(hex: "0101")!
             let notExistTxHash = Data(hex: "0202")!
             beforeEach {
-                stub(mockStorage) {mock in
+                stub(mockStorage) { mock in
                     when(mock.transactionExists(byHash: equal(to: existTxHash))).thenReturn(true)
                     when(mock.transactionExists(byHash: equal(to: notExistTxHash))).thenReturn(false)
                 }
@@ -192,10 +190,10 @@ class InstantTransactionManagerTests: QuickSpec {
         describe("#makeInstant(txHash: Data)") {
             let txHash = Data(hex: "0101")!
             beforeEach {
-                stub(mockStorage) {mock in
+                stub(mockStorage) { mock in
                     when(mock.add(instantTransactionHash: equal(to: txHash))).thenDoNothing()
                 }
-                stub(mockState) {mock in
+                stub(mockState) { mock in
                     when(mock.append(equal(to: txHash))).thenDoNothing()
                 }
             }
@@ -207,5 +205,4 @@ class InstantTransactionManagerTests: QuickSpec {
             }
         }
     }
-
 }

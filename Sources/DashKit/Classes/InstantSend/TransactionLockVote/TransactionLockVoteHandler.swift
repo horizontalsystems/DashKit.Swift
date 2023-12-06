@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsToolKit
 
 class TransactionLockVoteHandler: ITransactionLockVoteHandler {
@@ -48,7 +48,6 @@ class TransactionLockVoteHandler: ITransactionLockVoteHandler {
             return
         }
         handle(lockVote: lockVote, instantInputs: inputs)
-
     }
 
     private func handle(lockVote: TransactionLockVoteMessage, instantInputs: [InstantTransactionInput]) {
@@ -70,6 +69,4 @@ class TransactionLockVoteHandler: ITransactionLockVoteHandler {
             logger?.error(error)
         }
     }
-
 }
-

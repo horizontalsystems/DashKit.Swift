@@ -9,7 +9,7 @@ class MasternodeListState: Record {
     private let primaryKey: String = MasternodeListState.primaryKey
 
     override class var databaseTableName: String {
-        return "masternodeListState"
+        "masternodeListState"
     }
 
     enum Columns: String, ColumnExpression {
@@ -33,5 +33,4 @@ class MasternodeListState: Record {
 
         super.init()
     }
-
 }

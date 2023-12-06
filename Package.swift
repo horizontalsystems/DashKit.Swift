@@ -10,7 +10,8 @@ let package = Package(
     products: [
         .library(
             name: "DashKit",
-            targets: ["DashKit"]),
+            targets: ["DashKit"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/horizontalsystems/BitcoinCore.Swift.git", .upToNextMajor(from: "2.2.0")),
@@ -33,7 +34,7 @@ let package = Package(
                 .product(name: "HsExtensions", package: "HsExtensions.Swift"),
                 .product(name: "HsToolKit", package: "HsToolKit.Swift"),
                 .product(name: "HdWalletKit", package: "HdWalletKit.Swift"),
-                .product(name: "GRDB", package: "GRDB.swift")
+                .product(name: "GRDB", package: "GRDB.swift"),
             ]
         ),
     ]

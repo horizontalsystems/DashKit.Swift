@@ -1,12 +1,12 @@
-import Foundation
+import BitcoinCore
 import Combine
 import DashKit
-import BitcoinCore
-import HsToolKit
+import Foundation
 import HdWalletKit
+import HsToolKit
 
 class DashAdapter: BaseAdapter {
-    override var feeRate: Int { return 1 }
+    override var feeRate: Int { 1 }
     private let dashKit: Kit
 
     init(words: [String], testMode: Bool, syncMode: BitcoinCore.SyncMode, logger: Logger) {
@@ -20,9 +20,9 @@ class DashAdapter: BaseAdapter {
 
     override func transactions(fromUid: String?, type: TransactionFilterType? = nil, limit: Int) -> [TransactionRecord] {
         dashKit.transactions(fromUid: fromUid, type: type, limit: limit)
-                .compactMap {
-                    transactionRecord(fromTransaction: $0)
-                }
+            .compactMap {
+                transactionRecord(fromTransaction: $0)
+            }
     }
 
     private func transactionRecord(fromTransaction transaction: DashTransactionInfo) -> TransactionRecord {
@@ -40,25 +40,23 @@ class DashAdapter: BaseAdapter {
 }
 
 extension DashAdapter: DashKitDelegate {
-
-    public func transactionsUpdated(inserted: [DashTransactionInfo], updated: [DashTransactionInfo]) {
+    public func transactionsUpdated(inserted _: [DashTransactionInfo], updated _: [DashTransactionInfo]) {
         transactionsSubject.send()
     }
 
-    func transactionsDeleted(hashes: [String]) {
+    func transactionsDeleted(hashes _: [String]) {
         transactionsSubject.send()
     }
 
-    func balanceUpdated(balance: BalanceInfo) {
+    func balanceUpdated(balance _: BalanceInfo) {
         balanceSubject.send()
     }
 
-    func lastBlockInfoUpdated(lastBlockInfo: BlockInfo) {
+    func lastBlockInfoUpdated(lastBlockInfo _: BlockInfo) {
         lastBlockSubject.send()
     }
 
-    public func kitStateUpdated(state: BitcoinCore.KitState) {
+    public func kitStateUpdated(state _: BitcoinCore.KitState) {
         syncStateSubject.send()
     }
-
 }

@@ -1,12 +1,11 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
 import Cuckoo
 @testable import DashKit
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class MasternodeCbTxHashCalculatorTests: QuickSpec {
-
     override func spec() {
         let mockSerializer = MockICoinbaseTransactionSerializer()
         let mockHasher = MockIDashHasher()
@@ -34,7 +33,7 @@ class MasternodeCbTxHashCalculatorTests: QuickSpec {
                     when(mock.serialize(coinbaseTransaction: equal(to: cbTx))).thenReturn(serializedData)
                 }
                 stub(mockHasher) { mock in
-                    when(mock.hash(data: equal(to:serializedData))).thenReturn(hash)
+                    when(mock.hash(data: equal(to: serializedData))).thenReturn(hash)
                 }
                 let data = calculator.hash(coinbaseTransaction: cbTx)
                 expect(data).to(equal(hash))
@@ -42,4 +41,3 @@ class MasternodeCbTxHashCalculatorTests: QuickSpec {
         }
     }
 }
-

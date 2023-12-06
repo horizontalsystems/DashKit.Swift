@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 struct ISLockMessage: IMessage {
     let command: String = "islock"
@@ -12,18 +12,16 @@ struct ISLockMessage: IMessage {
     let requestID: Data
 
     var description: String {
-        return "\(txHash) - \(inputs.count) inputs locked"
+        "\(txHash) - \(inputs.count) inputs locked"
     }
 }
 
 extension ISLockMessage: Hashable {
-
     public func hash(into hasher: inout Hasher) {
         hasher.combine(hash)
     }
 
-    public static func ==(lhs: ISLockMessage, rhs: ISLockMessage) -> Bool {
-        return lhs.hash == rhs.hash && lhs.sign == rhs.sign
+    public static func == (lhs: ISLockMessage, rhs: ISLockMessage) -> Bool {
+        lhs.hash == rhs.hash && lhs.sign == rhs.sign
     }
-
 }

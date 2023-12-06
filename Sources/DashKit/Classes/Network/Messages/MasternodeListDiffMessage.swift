@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 struct MasternodeListDiffMessage: IMessage {
     let baseBlockHash: Data
@@ -19,7 +19,6 @@ struct MasternodeListDiffMessage: IMessage {
     let quorumList: [Quorum]
 
     var description: String {
-        return "\(baseBlockHash) \(blockHash)"
+        "\(baseBlockHash) \(blockHash)"
     }
-
 }

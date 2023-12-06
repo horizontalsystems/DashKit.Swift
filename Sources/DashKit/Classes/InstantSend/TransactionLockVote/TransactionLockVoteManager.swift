@@ -1,6 +1,5 @@
-import Foundation
 import BitcoinCore
-
+import Foundation
 
 class TransactionLockVoteManager: ITransactionLockVoteManager {
     private let transactionLockVoteValidator: ITransactionLockVoteValidator
@@ -29,12 +28,11 @@ class TransactionLockVoteManager: ITransactionLockVoteManager {
     }
 
     func processed(lvHash: Data) -> Bool {
-        return relayedLockVotes.first(where: { $0.hash == lvHash }) != nil || checkedLockVotes.first(where: { $0.hash == lvHash }) != nil
+        relayedLockVotes.first(where: { $0.hash == lvHash }) != nil || checkedLockVotes.first(where: { $0.hash == lvHash }) != nil
     }
 
     func validate(lockVote: TransactionLockVoteMessage) throws {
         // validate masternode in top 10 masternodes for quorumModifier and has right signature
         try transactionLockVoteValidator.validate(lockVote: lockVote)
     }
-
 }

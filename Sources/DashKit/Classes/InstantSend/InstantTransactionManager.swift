@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class InstantTransactionManager {
     private var state: IInstantTransactionState
@@ -14,7 +14,7 @@ class InstantTransactionManager {
     init(storage: IDashStorage, instantSendFactory: IInstantSendFactory, instantTransactionState: IInstantTransactionState) {
         self.storage = storage
         self.instantSendFactory = instantSendFactory
-        self.state = instantTransactionState
+        state = instantTransactionState
 
         state.instantTransactionHashes = storage.instantTransactionHashes()
     }
@@ -29,11 +29,9 @@ class InstantTransactionManager {
         }
         return instantInputs
     }
-
 }
 
 extension InstantTransactionManager: IInstantTransactionManager {
-
     func instantTransactionInputs(for txHash: Data, instantTransaction: FullTransaction?) -> [InstantTransactionInput] {
         // check if inputs already created
         let inputs = storage.instantTransactionInputs(for: txHash)
@@ -69,16 +67,15 @@ extension InstantTransactionManager: IInstantTransactionManager {
     }
 
     func isTransactionInstant(txHash: Data) -> Bool {
-        return state.instantTransactionHashes.contains(txHash)
+        state.instantTransactionHashes.contains(txHash)
     }
 
     func isTransactionExists(txHash: Data) -> Bool {
-        return storage.transactionExists(byHash: txHash)
+        storage.transactionExists(byHash: txHash)
     }
 
     func makeInstant(txHash: Data) {
         state.append(txHash)
         storage.add(instantTransactionHash: txHash)
     }
-
 }

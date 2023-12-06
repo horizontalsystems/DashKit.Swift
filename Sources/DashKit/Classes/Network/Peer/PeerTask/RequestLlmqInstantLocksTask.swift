@@ -1,8 +1,7 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class RequestLlmqInstantLocksTask: PeerTask {
-
     var hashes = [Data]()
     var llmqInstantLocks = [ISLockMessage]()
 
@@ -39,5 +38,4 @@ class RequestLlmqInstantLocksTask: PeerTask {
 
         return true
     }
-
 }

@@ -5,4 +5,4 @@ extension BlockValidatorHelper: IDashBlockValidatorHelper {}
 extension TransactionSizeCalculator: IDashTransactionSizeCalculator {}
 extension TransactionSyncer: IDashTransactionSyncer {}
 
-extension DoubleShaHasher: IDashHasher{}
+extension DoubleShaHasher: IDashHasher {}

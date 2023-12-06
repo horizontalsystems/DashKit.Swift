@@ -1,8 +1,8 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class GetMasternodeListDiffMessageSerializer: IMessageSerializer {
-    var id: String { return "getmnlistd" }
+    var id: String { "getmnlistd" }
 
     func serialize(message: IMessage) -> Data? {
         guard let message = message as? GetMasternodeListDiffMessage else {
@@ -11,5 +11,4 @@ class GetMasternodeListDiffMessageSerializer: IMessageSerializer {
 
         return message.baseBlockHash + message.blockHash
     }
-
 }

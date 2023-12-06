@@ -14,14 +14,14 @@ class TransactionLockVoteValidator: ITransactionLockVoteValidator {
     }
 
     func validate(lockVote: TransactionLockVoteMessage) throws {
-        let masternodes = storage.masternodes.filter { $0.isValid }
+        let masternodes = storage.masternodes.filter(\.isValid)
 
         var quorumMasternodes = [QuorumMasternode]()
 
         // 1. Make list of masternodes with quorumHashes
         masternodes.forEach { masternode in
 
-            let quorumHash = Data(hasher.hash(data: masternode.confirmedHashWithProRegTxHash + lockVote.quorumModifierHash).reversed()) //Score calculated for littleEndiad (check last bytes, then previous and ...)
+            let quorumHash = Data(hasher.hash(data: masternode.confirmedHashWithProRegTxHash + lockVote.quorumModifierHash).reversed()) // Score calculated for littleEndiad (check last bytes, then previous and ...)
 
             quorumMasternodes.append(QuorumMasternode(quorumHash: quorumHash, masternode: masternode))
         }
@@ -45,5 +45,4 @@ class TransactionLockVoteValidator: ITransactionLockVoteValidator {
             throw DashKitErrors.LockVoteValidation.signatureNotValid
         }
     }
-
 }

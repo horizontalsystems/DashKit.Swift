@@ -1,13 +1,12 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
+@testable import BitcoinCore
 import Cuckoo
 @testable import DashKit
-@testable import BitcoinCore
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class MerkleRootCreatorTests: QuickSpec {
-
     override func spec() {
         let mockHasher = MockIDashHasher()
 
@@ -90,8 +89,6 @@ class MerkleRootCreatorTests: QuickSpec {
 
                 expect(merkle).to(equal(Data(hex: expectedMerkleRoot)!))
             }
-
         }
     }
-
 }

@@ -1,13 +1,12 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
-import Cuckoo
 @testable import BitcoinCore
+import Cuckoo
 @testable import DashKit
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class TransactionLockVoteManagerTests: QuickSpec {
-
     override func spec() {
         let mockLockVoteValidator = MockITransactionLockVoteValidator()
         var manager: TransactionLockVoteManager!
@@ -21,10 +20,9 @@ class TransactionLockVoteManagerTests: QuickSpec {
         }
 
         let lockVotes = [DashTestData.transactionLockVote(txHash: Data(repeating: 0, count: 2), hash: Data(repeating: 5, count: 2)),
-                     DashTestData.transactionLockVote(txHash: Data(repeating: 0, count: 2), hash: Data(repeating: 6, count: 2)),
-                     DashTestData.transactionLockVote(txHash: Data(repeating: 2, count: 2), hash: Data(repeating: 7, count: 2)),
-                     DashTestData.transactionLockVote(txHash: Data(repeating: 3, count: 2), hash: Data(repeating: 8, count: 2)),
-        ]
+                         DashTestData.transactionLockVote(txHash: Data(repeating: 0, count: 2), hash: Data(repeating: 6, count: 2)),
+                         DashTestData.transactionLockVote(txHash: Data(repeating: 2, count: 2), hash: Data(repeating: 7, count: 2)),
+                         DashTestData.transactionLockVote(txHash: Data(repeating: 3, count: 2), hash: Data(repeating: 8, count: 2))]
 
         describe("#add(relayed: TransactionLockVoteMessage)") {
             it("has initially empty set") {
@@ -114,7 +112,5 @@ class TransactionLockVoteManagerTests: QuickSpec {
                 verify(mockLockVoteValidator).validate(lockVote: equal(to: lockVotes[0]))
             }
         }
-
     }
-
 }

@@ -1,12 +1,11 @@
-import Foundation
-import XCTest
-import Quick
-import Nimble
 import Cuckoo
 @testable import DashKit
+import Foundation
+import Nimble
+import Quick
+import XCTest
 
 class MasternodeSortedListTests: QuickSpec {
-
     override func spec() {
         var list: MasternodeSortedList!
 
@@ -63,5 +62,4 @@ class MasternodeSortedListTests: QuickSpec {
             }
         }
     }
-
 }

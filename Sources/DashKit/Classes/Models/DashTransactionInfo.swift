@@ -24,5 +24,4 @@ public class DashTransactionInfo: TransactionInfo {
 
         try super.encode(to: encoder)
     }
-
 }

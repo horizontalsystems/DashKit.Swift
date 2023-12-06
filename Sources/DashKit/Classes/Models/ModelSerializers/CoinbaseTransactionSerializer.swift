@@ -1,8 +1,7 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class CoinbaseTransactionSerializer: ICoinbaseTransactionSerializer {
-
     func serialize(coinbaseTransaction: CoinbaseTransaction) -> Data {
         var data = Data()
 
@@ -18,5 +17,4 @@ class CoinbaseTransactionSerializer: ICoinbaseTransactionSerializer {
 
         return data
     }
-
 }

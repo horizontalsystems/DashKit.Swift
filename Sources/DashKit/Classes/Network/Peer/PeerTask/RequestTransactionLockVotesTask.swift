@@ -1,8 +1,7 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class RequestTransactionLockVotesTask: PeerTask {
-
     var hashes = [Data]()
     var transactionLockVotes = [TransactionLockVoteMessage]()
 
@@ -39,5 +38,4 @@ class RequestTransactionLockVotesTask: PeerTask {
 
         return true
     }
-
 }

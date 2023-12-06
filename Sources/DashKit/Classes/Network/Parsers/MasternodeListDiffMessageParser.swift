@@ -1,12 +1,12 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsExtensions
 
 class MasternodeListDiffMessageParser: IMessageParser {
     private let masternodeParser: IMasternodeParser
     private let quorumParser: IQuorumParser
 
-    var id: String { return "mnlistdiff" }
+    var id: String { "mnlistdiff" }
 
     init(masternodeParser: IMasternodeParser, quorumParser: IQuorumParser) {
         self.masternodeParser = masternodeParser
@@ -22,7 +22,7 @@ class MasternodeListDiffMessageParser: IMessageParser {
         let merkleHashesCount = UInt32((byteStream.read(VarInt.self)).underlyingValue)
 
         var merkleHashes = [Data]()
-        for _ in 0..<merkleHashesCount {
+        for _ in 0 ..< merkleHashesCount {
             merkleHashes.append(byteStream.read(Data.self, count: 32))
         }
 
@@ -33,45 +33,44 @@ class MasternodeListDiffMessageParser: IMessageParser {
         let nVersion = byteStream.read(UInt16.self)
         let deletedMNsCount = UInt32((byteStream.read(VarInt.self)).underlyingValue)
         var deletedMNs = [Data]()
-        for _ in 0..<deletedMNsCount {
+        for _ in 0 ..< deletedMNsCount {
             deletedMNs.append(byteStream.read(Data.self, count: 32))
         }
 
         let mnListCount = UInt32((byteStream.read(VarInt.self)).underlyingValue)
         var mnList = [Masternode]()
-        for _ in 0..<mnListCount {
+        for _ in 0 ..< mnListCount {
             mnList.append(masternodeParser.parse(byteStream: byteStream))
         }
 
         let deletedQuorumsCount = Int(byteStream.read(VarInt.self).underlyingValue)
         var deletedQuorums = [(type: UInt8, quorumHash: Data)]()
-        for _ in 0..<deletedQuorumsCount {
+        for _ in 0 ..< deletedQuorumsCount {
             deletedQuorums.append((type: byteStream.read(UInt8.self), quorumHash: byteStream.read(Data.self, count: 32)))
         }
 
         let newQuorumsCount = Int(byteStream.read(VarInt.self).underlyingValue)
         var quorumList = [Quorum]()
-        for _ in 0..<newQuorumsCount {
+        for _ in 0 ..< newQuorumsCount {
             quorumList.append(quorumParser.parse(byteStream: byteStream))
         }
 
         return MasternodeListDiffMessage(
-                baseBlockHash: baseBlockHash,
-                blockHash: blockHash,
-                totalTransactions: totalTransactions,
-                merkleHashesCount: merkleHashesCount,
-                merkleHashes: merkleHashes,
-                merkleFlagsCount: merkleFlagsCount,
-                merkleFlags: merkleFlags,
-                cbTx: cbTx,
-                nVersion: nVersion,
-                deletedMNsCount: deletedMNsCount,
-                deletedMNs: deletedMNs,
-                mnListCount: mnListCount,
-                mnList: mnList,
-                deletedQuorums: deletedQuorums,
-                quorumList: quorumList
+            baseBlockHash: baseBlockHash,
+            blockHash: blockHash,
+            totalTransactions: totalTransactions,
+            merkleHashesCount: merkleHashesCount,
+            merkleHashes: merkleHashes,
+            merkleFlagsCount: merkleFlagsCount,
+            merkleFlags: merkleFlags,
+            cbTx: cbTx,
+            nVersion: nVersion,
+            deletedMNsCount: deletedMNsCount,
+            deletedMNs: deletedMNs,
+            mnListCount: mnListCount,
+            mnList: mnList,
+            deletedQuorums: deletedQuorums,
+            quorumList: quorumList
         )
     }
-
 }

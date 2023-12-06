@@ -3,8 +3,7 @@ import Foundation
 class QuorumSortedList: IQuorumSortedList {
     private var quorumSet = Set<Quorum>()
 
-    var quorums: [Quorum] { return
-            quorumSet.sorted()
+    var quorums: [Quorum] { quorumSet.sorted()
     }
 
     func add(quorums: [Quorum]) {
@@ -26,5 +25,4 @@ class QuorumSortedList: IQuorumSortedList {
     func removeAll() {
         quorumSet.removeAll()
     }
-
 }

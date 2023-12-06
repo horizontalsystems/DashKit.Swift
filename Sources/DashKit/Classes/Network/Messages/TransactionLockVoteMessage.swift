@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsExtensions
 
 struct TransactionLockVoteMessage: IMessage {
@@ -19,19 +19,16 @@ struct TransactionLockVoteMessage: IMessage {
     let hash: Data
 
     var description: String {
-        return "\(txHash.hs.reversedHex)"
+        "\(txHash.hs.reversedHex)"
     }
-
 }
 
 extension TransactionLockVoteMessage: Hashable {
-
     public func hash(into hasher: inout Hasher) {
         hasher.combine(hash)
     }
 
-    public static func ==(lhs: TransactionLockVoteMessage, rhs: TransactionLockVoteMessage) -> Bool {
-        return lhs.hash == rhs.hash && lhs.vchMasternodeSignature == rhs.vchMasternodeSignature
+    public static func == (lhs: TransactionLockVoteMessage, rhs: TransactionLockVoteMessage) -> Bool {
+        lhs.hash == rhs.hash && lhs.vchMasternodeSignature == rhs.vchMasternodeSignature
     }
-
 }

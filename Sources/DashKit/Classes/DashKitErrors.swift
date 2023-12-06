@@ -1,5 +1,4 @@
-public class DashKitErrors {
-
+public enum DashKitErrors {
     public enum LockVoteValidation: Error {
         case masternodeNotFound
         case masternodeNotInTop
@@ -26,6 +25,4 @@ public class DashKitErrors {
     enum QuorumListValidation: Error {
         case wrongMerkleRootList
     }
-
-
 }

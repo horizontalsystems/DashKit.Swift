@@ -15,8 +15,8 @@ class InstantSendLockValidator: IInstantSendLockValidator {
 
         // 02. Make signId data to verify signature
         var signId = quorum.typeWithQuorumHash +
-                        isLock.requestID +
-                        isLock.txHash
+            isLock.requestID +
+            isLock.txHash
         signId = hasher.hash(data: signId)
 
         // 03. Verify signature by BLS
@@ -26,5 +26,4 @@ class InstantSendLockValidator: IInstantSendLockValidator {
             throw DashKitErrors.ISLockValidation.signatureNotValid
         }
     }
-
 }

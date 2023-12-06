@@ -10,15 +10,13 @@ class ConfirmedUnspentOutputProvider {
     }
 }
 
-
 extension ConfirmedUnspentOutputProvider: IUnspentOutputProvider {
-
     var spendableUtxo: [UnspentOutput] {
         let lastBlockHeight = storage.lastBlock?.height ?? 0
 
         // Output must have a public key, that is, must belong to the user
         return storage.unspentOutputs()
-                .filter({ isOutputConfirmed(unspentOutput: $0, lastBlockHeight: lastBlockHeight) })
+            .filter { isOutputConfirmed(unspentOutput: $0, lastBlockHeight: lastBlockHeight) }
     }
 
     private func isOutputConfirmed(unspentOutput: UnspentOutput, lastBlockHeight: Int) -> Bool {
@@ -28,5 +26,4 @@ extension ConfirmedUnspentOutputProvider: IUnspentOutputProvider {
 
         return blockHeight <= lastBlockHeight - confirmationsThreshold + 1
     }
-
 }

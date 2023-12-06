@@ -1,4 +1,3 @@
 import Foundation
 
-class InstantSendLockValidatorTests {
-}
+class InstantSendLockValidatorTests {}

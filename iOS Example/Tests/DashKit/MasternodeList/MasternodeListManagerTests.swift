@@ -1,11 +1,11 @@
-//import Foundation
-//import XCTest
-//import Quick
-//import Nimble
-//import Cuckoo
-//@testable import BitcoinCore
+// import Foundation
+// import XCTest
+// import Quick
+// import Nimble
+// import Cuckoo
+// @testable import BitcoinCore
 //
-//class MasternodeListManagerTests: QuickSpec {
+// class MasternodeListManagerTests: QuickSpec {
 //
 //    override func spec() {
 //        let mockStorage = MockIDashStorage()
@@ -204,4 +204,4 @@
 //                deletedMNs: [], mnListCount: 0, mnList: [])
 //    }
 //
-//}
+// }

@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 import HsExtensions
 
 class ISLockParser: IMessageParser {
@@ -18,7 +18,7 @@ class ISLockParser: IMessageParser {
         let inputsCount = Int(inputCountVarInt.underlyingValue)
 
         var outpoints = [Outpoint]()
-        for _ in 0..<inputsCount {
+        for _ in 0 ..< inputsCount {
             outpoints.append(Outpoint(byteStream: byteStream))
         }
 
@@ -30,13 +30,11 @@ class ISLockParser: IMessageParser {
         // requestId - parameter to found quorum. 'islock' + count of inputs + each inputs(outpoint)
         var requestID = command + inputCountVarInt.data
         for outpoint in outpoints {
-            requestID += outpoint.txHash + Data(from: outpoint.vout)    //todo: check little or big endian
+            requestID += outpoint.txHash + Data(from: outpoint.vout) // TODO: check little or big endian
         }
         requestID = hasher.hash(data: requestID)
 
         let hash = hasher.hash(data: data)
         return ISLockMessage(inputs: outpoints, txHash: txHash, sign: sign, hash: hash, requestID: requestID)
-
     }
-
 }

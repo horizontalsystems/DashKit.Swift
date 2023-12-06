@@ -1,5 +1,5 @@
-import Foundation
 import BitcoinCore
+import Foundation
 
 class Outpoint {
     let txHash: Data
@@ -14,5 +14,4 @@ class Outpoint {
         txHash = byteStream.read(Data.self, count: 32)
         vout = byteStream.read(UInt32.self)
     }
-
 }

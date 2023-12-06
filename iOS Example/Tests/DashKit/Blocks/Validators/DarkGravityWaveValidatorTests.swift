@@ -1,16 +1,16 @@
-import XCTest
+@testable import BitcoinCore
 import Cuckoo
 @testable import DashKit
-@testable import BitcoinCore
+import XCTest
 
 class DarkGravityWaveValidatorTests: XCTestCase {
-    private let bitsArray = [0x1b104be1, 0x1b10e09e, 0x1b11a33c, 0x1b121cf3, 0x1b11951e, 0x1b11abac, 0x1b118d9c, 0x1b1123f9, 0x1b1141bf, 0x1b110764,
-                             0x1b107556, 0x1b104297, 0x1b1063d0, 0x1b10e878, 0x1b0dfaff, 0x1b0c9ab8, 0x1b0c03d6, 0x1b0dd168, 0x1b10b864, 0x1b0fed89,
-                             0x1b113ff1, 0x1b10460b, 0x1b13b83f, 0x1b1418d4]
+    private let bitsArray = [0x1B10_4BE1, 0x1B10_E09E, 0x1B11_A33C, 0x1B12_1CF3, 0x1B11_951E, 0x1B11_ABAC, 0x1B11_8D9C, 0x1B11_23F9, 0x1B11_41BF, 0x1B11_0764,
+                             0x1B10_7556, 0x1B10_4297, 0x1B10_63D0, 0x1B10_E878, 0x1B0D_FAFF, 0x1B0C_9AB8, 0x1B0C_03D6, 0x1B0D_D168, 0x1B10_B864, 0x1B0F_ED89,
+                             0x1B11_3FF1, 0x1B10_460B, 0x1B13_B83F, 0x1B14_18D4]
 
-    private let timestampArray = [1408728124, 1408728332, 1408728479, 1408728495, 1408728608, 1408728744, 1408728756, 1408728950, 1408729116, 1408729179,
-                                  1408729305, 1408729474, 1408729576, 1408729587, 1408729647, 1408729678, 1408730179, 1408730862, 1408730914, 1408731242,
-                                  1408731256, 1408732229, 1408732257, 1408732489] // 123433 - 123456
+    private let timestampArray = [1_408_728_124, 1_408_728_332, 1_408_728_479, 1_408_728_495, 1_408_728_608, 1_408_728_744, 1_408_728_756, 1_408_728_950, 1_408_729_116, 1_408_729_179,
+                                  1_408_729_305, 1_408_729_474, 1_408_729_576, 1_408_729_587, 1_408_729_647, 1_408_729_678, 1_408_730_179, 1_408_730_862, 1_408_730_914, 1_408_731_242,
+                                  1_408_731_256, 1_408_732_229, 1_408_732_257, 1_408_732_489] // 123433 - 123456
 
     private var validator: DarkGravityWaveValidator!
     private var mockBlockHelper: MockIDashBlockValidatorHelper!
@@ -21,29 +21,30 @@ class DarkGravityWaveValidatorTests: XCTestCase {
         super.setUp()
         mockBlockHelper = MockIDashBlockValidatorHelper()
 
-        validator = DarkGravityWaveValidator(encoder: DifficultyEncoder(), blockHelper: mockBlockHelper, heightInterval: 24, targetTimeSpan: 3600, maxTargetBits: 0x1e0fffff, firstCheckpointHeight: 123432)
+        validator = DarkGravityWaveValidator(encoder: DifficultyEncoder(), blockHelper: mockBlockHelper, heightInterval: 24, targetTimeSpan: 3600, maxTargetBits: 0x1E0F_FFFF, firstCheckpointHeight: 123_432)
 
         blocks.append(Block(
-                withHeader: BlockHeader(
-                        version: 1,
-                        headerHash: Data(),
-                        previousBlockHeaderHash: Data(),
-                        merkleRoot: Data(),
-                        timestamp: 1408732505,
-                        bits: 0x1b1441de,
-                        nonce: 1
-                ),
-                height: 123457))
+            withHeader: BlockHeader(
+                version: 1,
+                headerHash: Data(),
+                previousBlockHeaderHash: Data(),
+                merkleRoot: Data(),
+                timestamp: 1_408_732_505,
+                bits: 0x1B14_41DE,
+                nonce: 1
+            ),
+            height: 123_457
+        ))
 
-        for i in 0..<24 {
+        for i in 0 ..< 24 {
             let block = Block(
-                    withHeader: BlockHeader(version: 1, headerHash: Data(from: i), previousBlockHeaderHash: Data(from: i), merkleRoot: Data(), timestamp: timestampArray[timestampArray.count - i - 1], bits: bitsArray[bitsArray.count - i - 1], nonce: 0),
-                    height: blocks[0].height - i - 1
+                withHeader: BlockHeader(version: 1, headerHash: Data(from: i), previousBlockHeaderHash: Data(from: i), merkleRoot: Data(), timestamp: timestampArray[timestampArray.count - i - 1], bits: bitsArray[bitsArray.count - i - 1], nonce: 0),
+                height: blocks[0].height - i - 1
             )
             blocks.append(block)
         }
         stub(mockBlockHelper) { mock in
-            for i in 0..<24 {
+            for i in 0 ..< 24 {
                 when(mock.previous(for: equal(to: blocks[i]), count: 1)).thenReturn(blocks[i + 1])
             }
         }
@@ -61,7 +62,7 @@ class DarkGravityWaveValidatorTests: XCTestCase {
     func testValidate() {
         do {
             try validator.validate(block: blocks[0], previousBlock: blocks[1])
-        } catch let error {
+        } catch {
             XCTFail("\(error) Exception Thrown")
         }
     }
@@ -69,9 +70,8 @@ class DarkGravityWaveValidatorTests: XCTestCase {
     func testTrust() {
         do {
             try validator.validate(block: blocks[1], previousBlock: blocks[2])
-        } catch let error {
+        } catch {
             XCTFail("\(error) Exception Thrown")
         }
     }
-
 }
