@@ -213,10 +213,6 @@ public class Kit: AbstractKit {
         transactionInfos.compactMap { $0 as? DashTransactionInfo }
     }
 
-    override public func send(to address: String, value: Int, feeRate: Int, sortType: TransactionDataSortType, pluginData _: [UInt8: IPluginData]) throws -> FullTransaction {
-        try super.send(to: address, value: value, feeRate: feeRate, sortType: sortType)
-    }
-
     public func transactions(fromUid: String? = nil, type: TransactionFilterType?, limit: Int? = nil) -> [DashTransactionInfo] {
         cast(transactionInfos: super.transactions(fromUid: fromUid, type: type, limit: limit))
     }
