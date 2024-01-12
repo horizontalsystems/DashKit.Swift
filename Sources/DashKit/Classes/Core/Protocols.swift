@@ -18,7 +18,7 @@ protocol IDashBlockValidatorHelper {
 }
 
 protocol IDashTransactionSizeCalculator {
-    func transactionSize(previousOutputs: [Output], outputScriptTypes: [ScriptType]) -> Int
+    func transactionSize(previousOutputs: [Output], outputScriptTypes: [ScriptType], memo: String?) -> Int
     func outputSize(type: ScriptType) -> Int
     func inputSize(type: ScriptType) -> Int
     func toBytes(fee: Int) -> Int
