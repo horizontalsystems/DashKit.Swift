@@ -19,6 +19,10 @@ extension ConfirmedUnspentOutputProvider: IUnspentOutputProvider {
             .filter { isOutputConfirmed(unspentOutput: $0, lastBlockHeight: lastBlockHeight) }
     }
 
+    var confirmedSpendableUtxo: [UnspentOutput] {
+        spendableUtxo
+    }
+
     private func isOutputConfirmed(unspentOutput: UnspentOutput, lastBlockHeight: Int) -> Bool {
         guard let blockHeight = unspentOutput.blockHeight else {
             return false
