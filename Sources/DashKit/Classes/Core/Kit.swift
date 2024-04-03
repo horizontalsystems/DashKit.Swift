@@ -269,4 +269,33 @@ extension Kit {
     private static func databaseFileName(walletId: String, networkType: NetworkType, syncMode: BitcoinCore.SyncMode) -> String {
         "\(walletId)-\(networkType.rawValue)-\(syncMode)"
     }
+    
+    private static func addressConverter(network: INetwork) -> AddressConverterChain {
+        let addressConverter = AddressConverterChain()
+        addressConverter.prepend(addressConverter: Base58AddressConverter(addressVersion: network.pubKeyHash, addressScriptVersion: network.scriptHash))
+
+        return addressConverter
+    }
+
+    public static func firstAddress(seed: Data, networkType: NetworkType) throws -> Address {
+        let network = networkType.network
+
+        return try BitcoinCore.firstAddress(
+            seed: seed,
+            purpose: Purpose.bip44,
+            network: network,
+            addressCoverter: addressConverter(network: network)
+        )
+    }
+    
+    public static func firstAddress(extendedKey: HDExtendedKey, networkType: NetworkType) throws -> Address {
+        let network = networkType.network
+        
+        return try BitcoinCore.firstAddress(
+            extendedKey: extendedKey,
+            purpose: Purpose.bip44,
+            network: network,
+            addressCoverter: addressConverter(network: network)
+        )
+    }
 }
