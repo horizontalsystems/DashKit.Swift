@@ -93,6 +93,7 @@ protocol IDashStorage {
     func block(byHash: Data) -> Block?
 
     func unspentOutputs() -> [UnspentOutput]
+    func outputsCount(transactionHash: Data) -> Int
 
     func transactionExists(byHash: Data) -> Bool
     func transactionFullInfo(byHash hash: Data) -> FullTransactionForInfo?
