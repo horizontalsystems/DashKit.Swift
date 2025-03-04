@@ -15,6 +15,16 @@ class CoinbaseTransactionSerializer: ICoinbaseTransactionSerializer {
             data += merkleRootQuorums
         }
 
+        if let bestCLHeightDiff = coinbaseTransaction.bestCLHeightDiff {
+            data += bestCLHeightDiff
+        }
+        if let bestCLSignature = coinbaseTransaction.bestCLSignature {
+            data += bestCLSignature
+        }
+        if let creditPoolBalance = coinbaseTransaction.creditPoolBalance {
+            data += creditPoolBalance
+        }
+
         return data
     }
 }
