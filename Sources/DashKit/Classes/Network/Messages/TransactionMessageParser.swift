@@ -32,7 +32,7 @@ class TransactionMessageParser: IMessageParser {
 
     func parse(data: Data) -> IMessage {
         let byteStream = ByteStream(data)
-        var transaction = TransactionSerializer.deserialize(byteStream: byteStream)
+        var transaction = TransactionSerializer.deserialize(byteStream: byteStream, withoutWitness: true)
 
         let version = Data(from: transaction.header.version)
 
