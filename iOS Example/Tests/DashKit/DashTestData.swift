@@ -33,7 +33,9 @@ enum DashTestData {
     static var transaction: FullTransaction {
         let transaction = Transaction(version: 1, lockTime: 0)
 
-        for _ in 0 ..< 32 { transaction.dataHash.append(UInt8.random(in: 0 ... 255)) }
+        for _ in 0 ..< 32 {
+            transaction.dataHash.append(UInt8.random(in: 0 ... 255))
+        }
 
         let inputs = [
             Input(

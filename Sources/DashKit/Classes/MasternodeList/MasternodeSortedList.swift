@@ -15,7 +15,7 @@ class MasternodeSortedList: IMasternodeSortedList {
     }
 
     func remove(by proRegTxHashes: [Data]) {
-        proRegTxHashes.forEach { hash in
+        for hash in proRegTxHashes {
             if let index = masternodeSet.firstIndex(where: { $0.proRegTxHash == hash }) {
                 masternodeSet.remove(at: index)
             }

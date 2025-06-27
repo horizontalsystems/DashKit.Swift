@@ -19,8 +19,7 @@ class TransactionLockVoteValidator: ITransactionLockVoteValidator {
         var quorumMasternodes = [QuorumMasternode]()
 
         // 1. Make list of masternodes with quorumHashes
-        masternodes.forEach { masternode in
-
+        for masternode in masternodes {
             let quorumHash = Data(hasher.hash(data: masternode.confirmedHashWithProRegTxHash + lockVote.quorumModifierHash).reversed()) // Score calculated for littleEndiad (check last bytes, then previous and ...)
 
             quorumMasternodes.append(QuorumMasternode(quorumHash: quorumHash, masternode: masternode))

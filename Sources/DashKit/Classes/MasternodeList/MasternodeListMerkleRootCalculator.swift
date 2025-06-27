@@ -26,7 +26,7 @@ class MasternodeListMerkleRootCalculator: IMasternodeListMerkleRootCalculator {
     func calculateMerkleRoot(sortedMasternodes: [Masternode]) -> Data? {
         var hashList = [Data]()
 
-        sortedMasternodes.forEach { masternode in
+        for masternode in sortedMasternodes {
             let serialized = masternodeSerializer.serialize(masternode: masternode)
             hashList.append(masternodeHasher.hash(data: serialized))
         }

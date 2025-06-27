@@ -43,8 +43,8 @@ class TransactionLockVoteManagerTests: QuickSpec {
         }
         describe("#takeRelayedLockVotes(for txHash: Data)") {
             beforeEach {
-                lockVotes.forEach {
-                    manager.add(relayed: $0)
+                for lockVote in lockVotes {
+                    manager.add(relayed: lockVote)
                 }
             }
 
@@ -66,17 +66,17 @@ class TransactionLockVoteManagerTests: QuickSpec {
             let relayed = [lockVotes[0], lockVotes[1]]
             let checked = [lockVotes[2], lockVotes[3]]
             beforeEach {
-                relayed.forEach {
-                    manager.add(relayed: $0)
+                for item in relayed {
+                    manager.add(relayed: item)
                 }
-                checked.forEach {
-                    manager.add(checked: $0)
+                for item in checked {
+                    manager.add(checked: item)
                 }
             }
 
             it("checks processed") {
-                lockVotes.forEach {
-                    let votes = manager.processed(lvHash: $0.hash)
+                for lockVote in lockVotes {
+                    let votes = manager.processed(lvHash: lockVote.hash)
                     expect(votes).to(equal(true))
                 }
             }
