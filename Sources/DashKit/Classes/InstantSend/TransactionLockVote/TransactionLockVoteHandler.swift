@@ -29,7 +29,7 @@ class TransactionLockVoteHandler: ITransactionLockVoteHandler {
 
         // poll relayed lock votes to update inputs
         let relayedVotes = lockVoteManager.takeRelayedLockVotes(for: transaction.header.dataHash)
-        relayedVotes.forEach { vote in
+        for vote in relayedVotes {
             handle(lockVote: vote, instantInputs: inputs)
         }
     }

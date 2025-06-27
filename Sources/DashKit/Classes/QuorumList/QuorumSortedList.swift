@@ -15,7 +15,7 @@ class QuorumSortedList: IQuorumSortedList {
     }
 
     func remove(by pairs: [(type: UInt8, quorumHash: Data)]) {
-        pairs.forEach { type, quorumHash in
+        for (type, quorumHash) in pairs {
             if let index = quorumSet.firstIndex(where: { $0.type == type && $0.quorumHash == quorumHash }) {
                 quorumSet.remove(at: index)
             }

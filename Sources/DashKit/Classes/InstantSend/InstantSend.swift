@@ -79,7 +79,7 @@ extension InstantSend: IInventoryItemsHandler {
         var transactionLockVotes = [Data]()
         var isLocks = [Data]()
 
-        inventoryItems.forEach { item in
+        for item in inventoryItems {
             switch item.type {
             case DashInventoryType.msgTxLockRequest.rawValue:
                 transactionLockRequests.append(item.hash)

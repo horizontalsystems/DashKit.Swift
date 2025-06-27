@@ -10,9 +10,9 @@ struct CoinbaseTransaction {
     let height: UInt32
     let merkleRootMNList: Data
     let merkleRootQuorums: Data?
-    var bestCLHeightDiff: Data? = nil
-    var bestCLSignature: Data? = nil
-    var creditPoolBalance: Data? = nil
+    var bestCLHeightDiff: Data?
+    var bestCLSignature: Data?
+    var creditPoolBalance: Data?
 
     init(transaction: FullTransaction, coinbaseTransactionSize: Data, version: UInt16, height: UInt32, merkleRootMNList: Data, merkleRootQuorums: Data? = nil, bestCLHeightDiff: Data?, bestCLSignature: Data?, creditPoolBalance: Data?) {
         self.transaction = transaction
@@ -35,7 +35,7 @@ struct CoinbaseTransaction {
         merkleRootMNList = byteStream.read(Data.self, count: 32)
         merkleRootQuorums = version >= 2 ? byteStream.read(Data.self, count: 32) : nil
 
-        if (version >= 3) {
+        if version >= 3 {
             let bestCLHeightDiffSize = byteStream.read(VarInt.self)
             bestCLHeightDiff = bestCLHeightDiffSize.data
 
